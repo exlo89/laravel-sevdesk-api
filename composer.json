@@ -1,19 +1,32 @@
 {
-  "name": "exlo8/laravel-sevdesk-api",
-  "authors": [
-    {
-      "name": "Martin Appelmann",
-      "email": "cool.exlo@exlo.cool",
-      "role": "Developer"
+    "name": "exlo8/laravel-sevdesk-api",
+    "authors": [
+        {
+            "name": "Martin Appelmann",
+            "email": "cool.exlo@exlo.cool",
+            "role": "Developer"
+        }
+    ],
+    "license": "MIT",
+    "keywords": [
+        "php",
+        "laravel"
+    ],
+    "require": {
+        "php": ">=5.3.0",
+        "guzzlehttp/guzzle": "^7.0.1"
+    },
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-4": {
+            "Exlo\\LaravelSevdeskApi\\": "src"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Exlo\\LaravelSevdeskApi\\SevdeskServiceProvider"
+            ]
+        }
     }
-  ],
-  "license": "MIT",
-  "keywords": [
-    "php",
-    "laravel"
-  ],
-  "require": {
-    "php": ">=5.3.0"
-  },
-  "minimum-stability": "dev"
 }
