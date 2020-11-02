@@ -12,7 +12,7 @@ class SevdeskServiceProvider extends ServiceProvider
     {
         // routes listener or other functionality
         $this->publishes([
-            __DIR__.'/../config/laravel-sevdesk-api.php' => config_path('sevdesk.php'),
+            __DIR__.'/../config/config.php' => config_path('sevdesk.php'),
         ], 'laravel-sevdesk-api-config');
     }
 
@@ -20,7 +20,7 @@ class SevdeskServiceProvider extends ServiceProvider
     {
         // to bind any classes in the app container
         $this->mergeConfigFrom(
-            __DIR__.'/../config/laravel-sevdesk-api.php',
+            __DIR__.'/../config/config.php',
             'laravel-sevdesk-api'
         );
     }
