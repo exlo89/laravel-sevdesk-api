@@ -5,7 +5,9 @@
 [![Quality Score](https://img.shields.io/scrutinizer/g/exlo89/laravel-sevdesk-api.svg?style=flat-square)](https://scrutinizer-ci.com/g/exlo89/laravel-sevdesk-api)
 [![Total Downloads](https://img.shields.io/packagist/dt/exlo89/laravel-sevdesk-api.svg?style=flat-square)](https://packagist.org/packages/exlo89/laravel-sevdesk-api)
 
-This is where your description should go. Try and limit it to a paragraph or two, and maybe throw in a mention of what PSRs you support to avoid any confusion with users and contributors.
+This package make a connection to the sevdesk api and let you interact with it.
+
+[Sevdesk API Documentation](https://hilfe.sevdesk.de/knowledge/sevdesk-rest-full-api)
 
 ## Installation
 
