@@ -19,7 +19,7 @@ class InstallSevdeskApi extends Command
         $this->info('Publishing configuration...');
 
         $this->call('vendor:publish', [
-            '--provider' => "Exlo89\LaravelSevdeskApi\LaravelSevdeskApiServiceProvider",
+            '--provider' => "Exlo89\LaravelSevdeskApi\SevdeskApiServiceProvider",
             '--tag' => "config"
         ]);
 

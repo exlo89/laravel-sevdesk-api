@@ -4,7 +4,7 @@
 namespace Exlo89\LaravelSevdeskApi\Tests;
 
 
-use Exlo89\LaravelSevdeskApi\LaravelSevdeskApiServiceProvider;
+use Exlo89\LaravelSevdeskApi\SevdeskApiServiceProvider;
 
 class TestCase extends \Orchestra\Testbench\TestCase
 {
@@ -17,7 +17,7 @@ class TestCase extends \Orchestra\Testbench\TestCase
     protected function getPackageProviders($app)
     {
         return [
-            LaravelSevdeskApiServiceProvider::class,
+            SevdeskApiServiceProvider::class,
         ];
     }
 

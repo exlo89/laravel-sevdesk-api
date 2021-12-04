@@ -1,11 +1,10 @@
 <?php
 
 
-namespace Exlo\LaravelSevdeskApi;
+namespace Exlo89\LaravelSevdeskApi;
 
 
 use GuzzleHttp\Exception\BadResponseException;
-use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Client;
 
 class HttpClient

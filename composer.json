@@ -3,7 +3,7 @@
     "authors": [
         {
             "name": "Martin Appelmann",
-            "email": "cool.exlo@exlo.cool",
+            "email": "hello@martin-appelmann.de",
             "role": "Developer"
         }
     ],
@@ -12,8 +12,9 @@
     "keywords": [
         "php",
         "laravel",
-        "exlo89",
-        "laravel-sevdesk-api"
+        "sevdesk",
+        "api",
+        "accounting"
     ],
     "require": {
         "php": "^7.4.0",
@@ -44,10 +45,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Exlo89\\LaravelSevdeskApi\\LaravelSevdeskApiServiceProvider"
+                "SevdeskApiServiceProvider"
             ],
             "aliases": {
-                "LaravelSevdeskApi": "Exlo89\\LaravelSevdeskApi\\LaravelSevdeskApiFacade"
+                "SevdeskApi": "Facades\\SevdeskApi"
             }
         }
     }
