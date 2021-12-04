@@ -17,11 +17,34 @@ You can install the package via composer:
 composer require exlo89/laravel-sevdesk-api
 ```
 
-## Usage
+Set your api token with 
+```
+SEVDESK_API_TOKEN=xxxxxxxx
+```
 
-``` php
+Optionally you can publish the configfile with:
+
+```bash
 php artisan vendor:publish --tag=laravel-sevdesk-api
 ```
+
+This is the contents of the published config file:
+
+```php
+return [
+    /*
+     * Api token you from sevdesk. 
+     */
+    'api_token' => env('SEVDESK_API_TOKEN', ''),
+];
+```
+
+## Instantiation
+
+```php
+$sevdeskApi = SevdeskApi::make();
+```
+
 
 ### Testing
 

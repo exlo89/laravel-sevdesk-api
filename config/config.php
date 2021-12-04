@@ -1,8 +1,13 @@
 <?php
-
 /*
- * You can place your custom package configuration in here.
+ * config.php
+ * @author Martin Appelmann <hello@martin-appelmann.de>
+ * @copyright 2021 Martin Appelmann
  */
+
 return [
-    'api_token' => '',
+    /*
+     * Api token you from sevdesk.
+     */
+    'api_token' => env('SEVDESK_API_TOKEN', ''),
 ];

@@ -45,10 +45,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "SevdeskApiServiceProvider"
+                "Exlo89\\LaravelSevdeskApi\\SevdeskApiServiceProvider"
             ],
             "aliases": {
-                "SevdeskApi": "Facades\\SevdeskApi"
+                "SevdeskApi": "Exlo89\\LaravelSevdeskApi\\Facades\\SevdeskApi"
             }
         }
     }

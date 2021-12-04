@@ -7,15 +7,28 @@
 
 namespace Exlo89\LaravelSevdeskApi;
 
-class SevdeskApi extends HttpClient
+
+class SevdeskApi
 {
     public static function make()
     {
         return new static();
     }
 
-    public function getContacts()
+
+    public function __call($method, array $parameters)
     {
-        return $this->_get('contact');
+        return $this->getApiInstance($method);
+    }
+
+    protected function getApiInstance($method)
+    {
+        $class = "\\Exlo89\\LaravelSevdeskApi\\Api\\".ucwords($method);
+
+        if (class_exists($class)) {
+            return new $class();
+        }
+
+        throw new \BadMethodCallException("Undefined method [{$method}] called.");
     }
 }

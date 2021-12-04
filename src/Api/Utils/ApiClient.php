@@ -1,13 +1,16 @@
 <?php
+/*
+ * ApiClient.php
+ * @author Martin Appelmann <hello@martin-appelmann.de>
+ * @copyright 2021 Martin Appelmann
+ */
 
-
-namespace Exlo89\LaravelSevdeskApi;
-
+namespace Exlo89\LaravelSevdeskApi\Api\Utils;
 
 use GuzzleHttp\Exception\BadResponseException;
 use GuzzleHttp\Client;
 
-class HttpClient
+class ApiClient
 {
     private $client;
 
@@ -16,17 +19,14 @@ class HttpClient
         if (!$this->client) {
             $this->client = new Client([
                 'base_uri' => $this->baseUrl(),
-                'headers' => [
-                    'Authorization' => $this->getToken(),
-                ]
             ]);
         }
         return $this->client;
     }
 
-    private function getToken(): String
+    private function getToken(): string
     {
-        return 'token=' . config('sevdesk.token');
+        return config('sevdesk-api.api_token');
     }
 
     private function baseUrl()
@@ -37,6 +37,7 @@ class HttpClient
     public function execute($httpMethod, $url, array $parameters = [])
     {
         try {
+            $parameters['token'] = $this->getToken();
             $response = $this->getClient()->{$httpMethod}('api/v1/' . $url, ['query' => $parameters]);
         } catch (BadResponseException $exception) {
             $response = $exception->getResponse();
