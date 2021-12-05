@@ -39,20 +39,77 @@ return [
 ];
 ```
 
-## Instantiation
+## Usage
 
+First Instantiate a sevdesk instance.
 ```php
 $sevdeskApi = SevdeskApi::make();
 ```
 
+### Create Contact
 
-### Testing
+Create sevdesk contacts.
+There are 4 different default contact types in sevdesk.  
+- supplier
+- customer
+- partner
+- prospect customer
 
-``` bash
-composer test
+The optional `$parameter` is for additional information like description, vatNumber or bankNumber.
+
+```php
+$sevdeskApi->contact()->createSupplier('Supplier Organisation', $parameter);
+$sevdeskApi->contact()->createCustomer('Customer Organisation', $parameter);
+$sevdeskApi->contact()->createPartner('Partner Organisation', $parameter);
+$sevdeskApi->contact()->createProspectCustomer('Prospect Customer Organisation', $parameter);
+```
+For custom contact types.
+
+```php
+$sevdeskApi->contact()->createCustom('Custom Organisation', $categoryId, $parameter);
 ```
 
-### Changelog
+Check [Create Contact](https://my.sevdesk.de/api/ContactAPI/doc.html#operation/createContact) for more information.
+
+### Retrieve Contact
+
+To get all contacts. 
+
+```php
+$sevdeskApi->contact()->all();
+$sevdeskApi->contact()->allSupplier();
+$sevdeskApi->contact()->allCustomer();
+$sevdeskApi->contact()->allPartner();
+$sevdeskApi->contact()->allProspectCustomer();
+```
+To get all contacts from a custom type.
+
+```php
+$sevdeskApi->contact()->allCustom($categoryId);
+```
+To get a single contact.
+
+```php
+$sevdeskApi->contact()->get($contactId);
+```
+
+### Update Contact
+
+To update a single contact. `$contactId` is required.
+
+```php
+$sevdeskApi->contact()->update($contactId, $parameter);
+```
+
+### Delete Contact
+
+To delete a single contact. `$contactId` is required.
+
+```php
+$sevdeskApi->contact()->delete($contactId);
+```
+
+## Changelog
 
 Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recently.
 
@@ -62,7 +119,9 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 
 ### Security
 
-If you discover any security related issues, please email exlo89@gmail.com instead of using the issue tracker.
+If you discover any security related issues, please email 
+[hello@martin-appelmann.de](mailto:hello@martin-appelmann.de?subject=Laravel%20Sevdesk%20Issue) 
+instead of using the issue tracker.
 
 ## Credits
 
