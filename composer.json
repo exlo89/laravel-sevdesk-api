@@ -1,5 +1,6 @@
 {
     "name": "exlo89/laravel-sevdesk-api",
+    "description": "A helpful Sevdesk API client for Laravel.",
     "authors": [
         {
             "name": "Martin Appelmann",
