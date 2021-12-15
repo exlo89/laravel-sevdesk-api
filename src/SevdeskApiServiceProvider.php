@@ -17,7 +17,7 @@ class SevdeskApiServiceProvider extends ServiceProvider
     public function register()
     {
         // Automatically apply the package configuration
-        $this->mergeConfigFrom(__DIR__.'/../config/config.php', 'laravel-sevdesk-api');
+        $this->mergeConfigFrom(__DIR__ . '/../config/config.php', 'laravel-sevdesk-api');
 
         // Register the main class to use with the facade
         $this->app->singleton('sevdesk-api', function () {
@@ -32,7 +32,7 @@ class SevdeskApiServiceProvider extends ServiceProvider
     {
         if ($this->app->runningInConsole()) {
             $this->publishes([
-                __DIR__.'/../config/config.php' => config_path('sevdesk-api.php'),
+                __DIR__ . '/../config/config.php' => config_path('sevdesk-api.php'),
             ], 'config');
         }
     }

@@ -23,7 +23,7 @@ class SevdeskApi
 
     protected function getApiInstance($method)
     {
-        $class = "\\Exlo89\\LaravelSevdeskApi\\Api\\".ucwords($method);
+        $class = "\\Exlo89\\LaravelSevdeskApi\\Api\\" . ucwords($method);
 
         if (class_exists($class)) {
             return new $class();

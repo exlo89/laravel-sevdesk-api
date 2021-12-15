@@ -1,5 +1,4 @@
 <?php
-
 /*
  * Contact.php
  * @author Martin Appelmann <hello@martin-appelmann.de>
@@ -232,6 +231,22 @@ class Contact extends ApiClient
     {
         $parameters['name'] = $organisationName;
         return $this->create($contactCategory, $parameters);
+    }
+
+    /**
+     * Create accounting contact.
+     *
+     * @param int $contactId
+     * @return mixed
+     */
+    public function createAccountingContact(int $contactId)
+    {
+        return $this->_post(Routes::ACCOUNTING_CONTACT, [
+            'contact' => [
+                "id" => $contactId,
+                "objectName" => "Contact"
+            ]
+        ]);
     }
 
     // ========================== update ==================================
