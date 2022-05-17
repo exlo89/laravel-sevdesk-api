@@ -7,7 +7,7 @@
 
 return [
     /*
-     * Api token you from sevdesk.
+     * Your sevdesk api token.
      */
     'api_token' => env('SEVDESK_API_TOKEN', ''),
 ];

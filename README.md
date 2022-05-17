@@ -166,6 +166,35 @@ To delete a single communication way.
 $sevdeskApi->communicationWay()->delete($communicationWayId);
 ```
 
+### Retrieve Invoice
+
+To get all invoices.
+
+```php
+$sevdeskApi->invoice()->all();
+```
+
+To get all invoices filtered by status `draft`, `open` or `payed`.
+
+```php
+$sevdeskApi->invoice()->allDraft();
+$sevdeskApi->invoice()->allOpen();
+$sevdeskApi->invoice()->allPayed();
+```
+
+To get all invoices filtered by a giving `$contactId`.
+
+```php
+$sevdeskApi->invoice()->allByContact($contactId);
+```
+
+To get all invoices filtered by giving `$timestamp`.
+
+```php
+$sevdeskApi->invoice()->allAfter($timestamp);
+$sevdeskApi->invoice()->allBefore($timestamp);
+```
+
 ## Changelog
 
 Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recently.

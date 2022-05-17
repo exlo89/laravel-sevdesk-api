@@ -13,4 +13,6 @@ class Routes
     const CONTACT = 'Contact';
     const CONTACT_ADDRESS = 'ContactAddress';
     const COMMUNICATION_WAY = 'CommunicationWay';
+    const CREDIT_NOTE = 'CreditNote';
+    const INVOICE = 'Invoice';
 }
