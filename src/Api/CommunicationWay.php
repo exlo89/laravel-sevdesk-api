@@ -10,6 +10,11 @@ namespace Exlo89\LaravelSevdeskApi\Api;
 use Exlo89\LaravelSevdeskApi\Api\Utils\ApiClient;
 use Exlo89\LaravelSevdeskApi\Api\Utils\Routes;
 
+/**
+ * Sevdesk Comunication Way Api
+ *
+ * @see https://api.sevdesk.de/#tag/CommunicationWay
+ */
 class CommunicationWay extends ApiClient
 {
     /**

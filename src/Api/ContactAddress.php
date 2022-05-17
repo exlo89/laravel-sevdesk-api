@@ -10,6 +10,11 @@ namespace Exlo89\LaravelSevdeskApi\Api;
 use Exlo89\LaravelSevdeskApi\Api\Utils\ApiClient;
 use Exlo89\LaravelSevdeskApi\Api\Utils\Routes;
 
+/**
+ * Sevdesk Contact Address Api
+ *
+ * @see https://api.sevdesk.de/#tag/ContactAddress
+ */
 class ContactAddress extends ApiClient
 {
     /**

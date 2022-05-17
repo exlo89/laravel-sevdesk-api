@@ -10,6 +10,11 @@ namespace Exlo89\LaravelSevdeskApi\Api;
 use Exlo89\LaravelSevdeskApi\Api\Utils\ApiClient;
 use Exlo89\LaravelSevdeskApi\Api\Utils\Routes;
 
+/**
+ * Sevdesk Invoice Api
+ *
+ * @see https://api.sevdesk.de/#tag/Invoice
+ */
 class Invoice extends ApiClient
 {
     /**
