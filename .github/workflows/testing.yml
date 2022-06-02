@@ -28,7 +28,7 @@ jobs:
             -   name: Install PHP
                 uses: shivammathur/setup-php@v2
                 with:
-                    php-version: ${{ matrix.php-version }}
+                    php-version: ${{ matrix.php }}
 
             -   name: Cache dependencies
                 uses: actions/cache@v2
