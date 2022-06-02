@@ -21,10 +21,10 @@ Set your api token with
 SEVDESK_API_TOKEN=xxxxxxxx
 ```
 
-Optionally you can publish the configfile with:
+Optionally you can publish the config file with:
 
 ```bash
-php artisan vendor:publish --tag=laravel-sevdesk-api
+php artisan vendor:publish --provider="Exlo89\LaravelSevdeskApi\SevdeskApiServiceProvider" --tag="config"
 ```
 
 This is the contents of the published config file:
