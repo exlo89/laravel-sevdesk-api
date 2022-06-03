@@ -3,14 +3,14 @@ name: Test
 on: [push]
 
 jobs:
-    test:
+    test-php-7:
         runs-on: ubuntu-latest
         name: PHP ${{ matrix.php }} - Laravel ${{ matrix.laravel }}
         strategy:
             fail-fast: true
             matrix:
-                php: [7.2, 7.3, 7.4, 8.0, 8.1]
-                laravel: [6.*, 7.*, 8.*, 9.*]
+                php: [7.3, 7.4, 8.0, 8.1]
+                laravel: [6.*, 7.*, 8.*]
                 dependency-version: [prefer-lowest, prefer-stable]
                 include:
                     -   laravel: 6.*
@@ -19,8 +19,6 @@ jobs:
                         testbench: 5.*
                     -   laravel: 8.*
                         testbench: 6.*
-                    -   laravel: 9.*
-                        testbench: 7.*
         steps:
             -   name: Checkout code
                 uses: actions/checkout@v2
