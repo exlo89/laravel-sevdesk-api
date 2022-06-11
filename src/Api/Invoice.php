@@ -146,7 +146,46 @@ class Invoice extends ApiClient
             ]
         ];
         $allParameters = array_replace_recursive($requiredParameters, $parameters);
-        return $this->_post(Routes::INVOICE . '/Factory/saveInvoice', $allParameters);
+        return $this->_post(Routes::CREATE_INVOICE, $allParameters);
     }
 
+    // =======================================================================
+
+    /**
+     * Returns pdf file of the giving invoice id.
+     *
+     * @return void
+     */
+    public function download($invoiceId)
+    {
+        $response = $this->_get(Routes::INVOICE . '/' . $invoiceId . '/getPdf');
+        $file = $response['filename'];
+        file_put_contents($file, base64_decode($response['content']));
+
+        if (file_exists($file)) {
+            header('Content-Description: File Transfer');
+            header('Content-Type: application/octet-stream');
+            header('Content-Disposition: attachment; filename="' . basename($file) . '"');
+            header('Expires: 0');
+            header('Cache-Control: must-revalidate');
+            header('Pragma: public');
+            header('Content-Length: ' . filesize($file));
+            readfile($file);
+            exit();
+        }
+    }
+
+    /**
+     * Send invoice per email.
+     *
+     * @return void
+     */
+    public function sendPerMail($invoiceId, $email, $subject, $text)
+    {
+        return $this->_post(Routes::INVOICE . '/' . $invoiceId . '/sendViaEmail', [
+            'toEmail' => $email,
+            'subject' => $subject,
+            'text' => $text,
+        ]);
+    }
 }

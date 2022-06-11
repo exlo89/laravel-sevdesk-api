@@ -196,6 +196,18 @@ $sevdeskApi->invoice()->allAfter($timestamp);
 $sevdeskApi->invoice()->allBefore($timestamp);
 ```
 
+To download pdf file of the giving `$invoiceId`.
+
+```php
+$sevdeskApi->invoice()->download($invoiceId);
+```
+
+To send invoice to giving `$email`. Use `$subject` and `$text` to edit the mail. `$text` can contain html.
+
+```php
+$sevdeskApi->invoice()->sendPerMail($invoiceId, $email, $subject, $text);
+```
+
 ## Changelog
 
 Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recently.
