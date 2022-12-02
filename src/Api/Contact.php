@@ -7,6 +7,7 @@
 
 namespace Exlo89\LaravelSevdeskApi\Api;
 
+use Illuminate\Support\Collection;
 use Exlo89\LaravelSevdeskApi\Api\Utils\ApiClient;
 use Exlo89\LaravelSevdeskApi\Api\Utils\Routes;
 
