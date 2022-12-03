@@ -7,6 +7,7 @@
 
 namespace Exlo89\LaravelSevdeskApi\Api;
 
+use Illuminate\Support\Collection;
 use Exlo89\LaravelSevdeskApi\Api\Utils\ApiClient;
 use Exlo89\LaravelSevdeskApi\Api\Utils\Routes;
 
@@ -35,7 +36,7 @@ class Contact extends ApiClient
      */
     public function all(int $depth = 0)
     {
-        return $this->_get(Routes::CONTACT, ['depth' => $depth]);
+        return Collection::make($this->_get(Routes::CONTACT, ['depth' => $depth]));
     }
 
     /**
@@ -47,7 +48,7 @@ class Contact extends ApiClient
      */
     public function allByCity(string $city, int $depth = 0)
     {
-        return $this->_get(Routes::CONTACT, ['city' => $city, 'depth' => $depth]);
+        return Collection::make($this->_get(Routes::CONTACT, ['city' => $city, 'depth' => $depth]));
     }
 
     /**
@@ -58,13 +59,13 @@ class Contact extends ApiClient
      */
     public function allSuppliers(int $depth = 0)
     {
-        return $this->_get(Routes::CONTACT, [
+        return Collection::make($this->_get(Routes::CONTACT, [
             'category' => [
                 "id" => self::SUPPLIER,
                 "objectName" => "Category"
             ],
             'depth' => $depth,
-        ]);
+        ]));
     }
 
     /**
@@ -75,13 +76,13 @@ class Contact extends ApiClient
      */
     public function allCustomers(int $depth = 0)
     {
-        return $this->_get(Routes::CONTACT, [
+        return Collection::make($this->_get(Routes::CONTACT, [
             'category' => [
                 "id" => self::CUSTOMER,
                 "objectName" => "Category"
             ],
             'depth' => $depth,
-        ]);
+        ]));
     }
 
     /**
@@ -92,13 +93,13 @@ class Contact extends ApiClient
      */
     public function allPartners(int $depth = 0)
     {
-        return $this->_get(Routes::CONTACT, [
+        return Collection::make($this->_get(Routes::CONTACT, [
             'category' => [
                 "id" => self::PARTNER,
                 "objectName" => "Category"
             ],
             'depth' => $depth,
-        ]);
+        ]));
     }
 
     /**
@@ -109,13 +110,13 @@ class Contact extends ApiClient
      */
     public function allProspectCustomers(int $depth = 0)
     {
-        return $this->_get(Routes::CONTACT, [
+        return Collection::make($this->_get(Routes::CONTACT, [
             'category' => [
                 "id" => self::PROSPECT_CUSTOMER,
                 "objectName" => "Category"
             ],
             'depth' => $depth,
-        ]);
+        ]));
     }
 
     /**
@@ -127,13 +128,13 @@ class Contact extends ApiClient
      */
     public function allCustom(int $contactCategory, int $depth = 0)
     {
-        return $this->_get(Routes::CONTACT, [
+        return Collection::make($this->_get(Routes::CONTACT, [
             'category' => [
                 "id" => $contactCategory,
                 "objectName" => "Category"
             ],
             'depth' => $depth,
-        ]);
+        ]));
     }
 
     // =========================== get ====================================

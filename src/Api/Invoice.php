@@ -7,6 +7,7 @@
 
 namespace Exlo89\LaravelSevdeskApi\Api;
 
+use Illuminate\Support\Collection;
 use Exlo89\LaravelSevdeskApi\Api\Utils\ApiClient;
 use Exlo89\LaravelSevdeskApi\Api\Utils\Routes;
 
@@ -34,7 +35,7 @@ class Invoice extends ApiClient
      */
     public function all()
     {
-        return $this->_get(Routes::INVOICE);
+        return Collection::make($this->_get(Routes::INVOICE));
     }
 
     /**
@@ -44,7 +45,7 @@ class Invoice extends ApiClient
      */
     public function allDraft()
     {
-        return $this->_get(Routes::INVOICE, ['status' => self::DRAFT]);
+        return Collection::make($this->_get(Routes::INVOICE, ['status' => self::DRAFT]));
     }
 
     /**
@@ -54,7 +55,7 @@ class Invoice extends ApiClient
      */
     public function allOpen()
     {
-        return $this->_get(Routes::INVOICE, ['status' => self::OPEN]);
+        return Collection::make($this->_get(Routes::INVOICE, ['status' => self::OPEN]));
     }
 
     /**
@@ -64,7 +65,7 @@ class Invoice extends ApiClient
      */
     public function allPayed()
     {
-        return $this->_get(Routes::INVOICE, ['status' => self::PAYED]);
+        return Collection::make($this->_get(Routes::INVOICE, ['status' => self::PAYED]));
     }
 
     /**
@@ -74,12 +75,12 @@ class Invoice extends ApiClient
      */
     public function allByContact($contactId)
     {
-        return $this->_get(Routes::INVOICE, [
+        return Collection::make($this->_get(Routes::INVOICE, [
             'contact' => [
                 'id' => $contactId,
                 'objectName' => 'Contact'
             ],
-        ]);
+        ]));
     }
 
     /**
@@ -89,7 +90,7 @@ class Invoice extends ApiClient
      */
     public function allBefore(int $timestamp)
     {
-        return $this->_get(Routes::INVOICE, ['endDate' => $timestamp]);
+        return Collection::make($this->_get(Routes::INVOICE, ['endDate' => $timestamp]));
     }
 
     /**
@@ -99,7 +100,7 @@ class Invoice extends ApiClient
      */
     public function allAfter(int $timestamp)
     {
-        return $this->_get(Routes::INVOICE, ['startDate' => $timestamp]);
+        return Collection::make($this->_get(Routes::INVOICE, ['startDate' => $timestamp]));
     }
 
     // =========================== create ====================================
