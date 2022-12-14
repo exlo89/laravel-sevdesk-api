@@ -7,6 +7,7 @@
 
 namespace Exlo89\LaravelSevdeskApi\Api;
 
+use Illuminate\Support\Collection;
 use Exlo89\LaravelSevdeskApi\Api\Utils\ApiClient;
 use Exlo89\LaravelSevdeskApi\Api\Utils\Routes;
 
@@ -17,6 +18,28 @@ use Exlo89\LaravelSevdeskApi\Api\Utils\Routes;
  */
 class ContactAddress extends ApiClient
 {
+    /**
+     * Return all contact addresses.
+     *
+     * @param int $depth
+     * @return mixed
+     */
+    public function all()
+    {
+        return Collection::make($this->_get(Routes::CONTACT_ADDRESS));
+    }
+
+    /**
+     * Find an addresses for the contact address id.
+     *
+     * @param int $depth
+     * @return mixed
+     */
+    public function findFromAddressId(int $contactAddressId)
+    {
+        return Collection::make($this->_get(Routes::CONTACT_ADDRESS . '/' . $contactAddressId));
+    }
+
     /**
      * Create contact address.
      *
