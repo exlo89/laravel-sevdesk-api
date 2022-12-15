@@ -21,7 +21,6 @@ class ContactAddress extends ApiClient
     /**
      * Return all contact addresses.
      *
-     * @param int $depth
      * @return mixed
      */
     public function all()
@@ -32,7 +31,7 @@ class ContactAddress extends ApiClient
     /**
      * Find an addresses for the contact address id.
      *
-     * @param int $depth
+     * @param int $contactAddressId
      * @return mixed
      */
     public function findFromAddressId(int $contactAddressId)
