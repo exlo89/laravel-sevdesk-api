@@ -16,4 +16,5 @@ class Routes
     const CREDIT_NOTE = 'CreditNote';
     const INVOICE = 'Invoice';
     const CREATE_INVOICE = 'Invoice/Factory/saveInvoice';
+    const STATIC_COUNTRY= 'StaticCountry';
 }
