@@ -9,6 +9,7 @@ namespace Exlo89\LaravelSevdeskApi\Api;
 
 use Exlo89\LaravelSevdeskApi\Api\Utils\ApiClient;
 use Exlo89\LaravelSevdeskApi\Api\Utils\Routes;
+use Illuminate\Support\Collection;
 
 /**
  * Sevdesk Comunication Way Api
@@ -46,7 +47,7 @@ class CommunicationWay extends ApiClient
      */
     public function all()
     {
-        return $this->_get(Routes::COMMUNICATION_WAY);
+        return Collection::make($this->_get(Routes::COMMUNICATION_WAY));
     }
 
     /**
@@ -56,12 +57,12 @@ class CommunicationWay extends ApiClient
      */
     public function getByContact(int $contactId)
     {
-        return $this->_get(Routes::COMMUNICATION_WAY, [
+        return Collection::make($this->_get(Routes::COMMUNICATION_WAY, [
             'contact' => [
                 'id' => $contactId,
                 'objectName' => 'Contact',
             ]
-        ]);
+        ]));
     }
 
     // ========================== create ==================================
