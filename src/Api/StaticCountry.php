@@ -1,8 +1,8 @@
 <?php
 /*
- * Contact.php
- * @author Martin Appelmann <hello@martin-appelmann.de>
- * @copyright 2021 Martin Appelmann
+ * StaticCountry.php
+ * @author Eric Bortz <eric.bortz124@gmail.com>
+ * @copyright 2023 Eric Bortz
  */
 
 namespace Exlo89\LaravelSevdeskApi\Api;
