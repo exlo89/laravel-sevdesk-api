@@ -110,44 +110,9 @@ class Invoice extends ApiClient
      *
      * @return mixed
      */
-    public function create($contactId, array $parameters = [])
+    public function create(array $parameters)
     {
-        $requiredParameters = [
-            'invoice' => [
-                'objectName' => 'Invoice',
-                'contact' => [
-                    'id' => $contactId,
-                    'objectName' => 'Contact'
-                ],
-                'invoiceDate' => date('Y-m-d H:i:s'),
-                'discount' => 0,
-                'addressCountry' => [
-                    'id' => 1,
-                    'objectName' => 'StaticCountry'
-                ],
-                'status' => self::DRAFT,
-                'contactPerson' => [
-                    'id' => config('sevdesk-api.sev_user_id'),
-                    'objectName' => 'SevUser'
-                ],
-                'taxRate' => config('sevdesk-api.tax_rate'),
-                'taxText' => config('sevdesk-api.tax_text'),
-                'taxType' => config('sevdesk-api.tax_type'),
-                'invoiceType' => config('sevdesk-api.invoice_type'),
-                'currency' => config('sevdesk-api.currency'),
-                'mapAll' => 'true'
-            ],
-            'invoicePosSave' => [
-                'objectName' => 'InvoicePos',
-                'quantity' => 1,
-                'unity' => [
-                    'id' => 1,
-                    'objectName' => 'Unity',
-                ]
-            ]
-        ];
-        $allParameters = array_replace_recursive($requiredParameters, $parameters);
-        return $this->_post(Routes::CREATE_INVOICE, $allParameters);
+        return $this->_post(Routes::CREATE_INVOICE, $parameters);
     }
 
     // =======================================================================
