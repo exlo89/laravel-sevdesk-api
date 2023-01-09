@@ -25,12 +25,10 @@ class SevdeskApi
     {
         $class = "\\Exlo89\\LaravelSevdeskApi\\Api\\" . ucwords($method);
 
-        dd($class);
-
         if (class_exists($class)) {
             return new $class();
         }
 
-        throw new \BadMethodCallException("Undefined method [{$method}] called.");
+        throw new \BadMethodCallException("Undefined method [{$class}] called.");
     }
 }
