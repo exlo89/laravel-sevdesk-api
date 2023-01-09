@@ -1,8 +1,8 @@
 <?php
 /*
  * ApiClient.php
- * @author Martin Appelmann <hello@martin-appelmann.de>
- * @copyright 2021 Martin Appelmann
+ * @author Simon Schlossarek
+ * @copyright 2023 Simon Schlossarek
  */
 
 namespace Exlo89\LaravelSevdeskApi\Api\Utils;
@@ -37,8 +37,13 @@ class ApiClient
     public function execute($httpMethod, $url, array $parameters = [])
     {
         try {
-            $parameters['token'] = $this->getToken();
-            $response = $this->getClient()->{$httpMethod}('api/v1/' . $url, ['query' => $parameters]);
+            $response = $this->getClient()->{$httpMethod}('api/v1/' . $url,
+                [
+                    'headers'=> ['Content-Type' => 'application/json'],
+                    'query' => ['token'=>$this->getToken()],
+                    'body' => json_encode($parameters)
+                ]
+            );
             $responseBody = json_decode((string)$response->getBody(), true);
             return $responseBody['objects'];
         } catch (BadResponseException $exception) {

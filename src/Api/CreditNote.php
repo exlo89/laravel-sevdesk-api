@@ -28,4 +28,31 @@ class CreditNote extends ApiClient
     {
         return $this->_post(Routes::CREDIT_NOTE . '/Factory/saveCreditNote', $parameters);
     }
+
+    /**
+     * Download PDF credit note.
+     *
+     * @param array $parameters
+     * @return mixed
+     */
+    public function download(int $id, array $parameters = [])
+    {
+
+        $response = $this->_get(Routes::CREDIT_NOTE . '/'.$id.'/getPdf');
+
+        $file = $response['filename'];
+        file_put_contents($file, base64_decode($response['content']));
+
+        if (file_exists($file)) {
+            header('Content-Description: File Transfer');
+            header('Content-Type: application/octet-stream');
+            header('Content-Disposition: attachment; filename="' . basename($file) . '"');
+            header('Expires: 0');
+            header('Cache-Control: must-revalidate');
+            header('Pragma: public');
+            header('Content-Length: ' . filesize($file));
+            readfile($file);
+            exit();
+        }
+    }
 }
