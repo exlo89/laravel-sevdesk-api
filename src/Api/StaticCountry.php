@@ -1,8 +1,8 @@
 <?php
 /*
  * StaticCountry.php
- * @author Eric Bortz <eric.bortz124@gmail.com>
- * @copyright 2023 Eric Bortz
+ * @author Martin Appelmann <hello@martin-appelmann.de>
+ * @copyright 2021 Martin Appelmann/
  */
 
 namespace Exlo89\LaravelSevdeskApi\Api;
@@ -14,7 +14,7 @@ use Illuminate\Support\Collection;
 /**
  * Sevdesk Contact Api
  *
- * @see https://api.sevdesk.de/#tag/Contact
+ * @see https://api.sevdesk.de/#section/How-to-filter-for-certain-contacts
  */
 class StaticCountry extends ApiClient
 {
