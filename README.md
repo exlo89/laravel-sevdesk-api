@@ -208,6 +208,20 @@ To send invoice to giving `$email`. Use `$subject` and `$text` to edit the mail.
 $sevdeskApi->invoice()->sendPerMail($invoiceId, $email, $subject, $text);
 ```
 
+### Retrieve Country
+
+To retrieve all countries use:
+
+```php
+    $sevdeskApi->staticCountry()->all();
+```
+
+To retrieve a single country use:
+
+```php
+    $sevdeskApi->staticCountry()->get($countryId);
+```
+
 ## Changelog
 
 Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recently.
