@@ -23,9 +23,9 @@ class ContactAddress extends ApiClient
      *
      * @return mixed
      */
-    public function all()
+    public function all(int $limit = 1000)
     {
-        return Collection::make($this->_get(Routes::CONTACT_ADDRESS));
+        return Collection::make($this->_get(Routes::CONTACT_ADDRESS, ['limit' => $limit]));
     }
 
     /**
