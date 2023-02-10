@@ -25,9 +25,9 @@ class StaticCountry extends ApiClient
      *
      * @return mixed
      */
-    public function all()
+    public function all(int $limit = 1000)
     {
-        return Collection::make($this->_get(Routes::STATIC_COUNTRY));
+        return Collection::make($this->_get(Routes::STATIC_COUNTRY, ['limit' => $limit]));
     }
 
     // =========================== get ====================================

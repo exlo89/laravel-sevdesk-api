@@ -34,9 +34,9 @@ class Contact extends ApiClient
      * @param int $depth
      * @return mixed
      */
-    public function all(int $depth = 0)
+    public function all(int $depth = 0, int $limit = 1000)
     {
-        return Collection::make($this->_get(Routes::CONTACT, ['depth' => $depth]));
+        return Collection::make($this->_get(Routes::CONTACT, ['depth' => $depth, 'limit' => $limit,]));
     }
 
     /**
@@ -46,9 +46,9 @@ class Contact extends ApiClient
      * @param int $depth
      * @return mixed
      */
-    public function allByCity(string $city, int $depth = 0)
+    public function allByCity(string $city, int $depth = 0, int $limit = 1000)
     {
-        return Collection::make($this->_get(Routes::CONTACT, ['city' => $city, 'depth' => $depth]));
+        return Collection::make($this->_get(Routes::CONTACT, ['city' => $city, 'depth' => $depth, 'limit' => $limit,]));
     }
 
     /**
@@ -57,7 +57,7 @@ class Contact extends ApiClient
      * @param int $depth
      * @return mixed
      */
-    public function allSuppliers(int $depth = 0)
+    public function allSuppliers(int $depth = 0, int $limit = 1000)
     {
         return Collection::make($this->_get(Routes::CONTACT, [
             'category' => [
@@ -65,6 +65,7 @@ class Contact extends ApiClient
                 "objectName" => "Category"
             ],
             'depth' => $depth,
+            'limit' => $limit,
         ]));
     }
 
@@ -74,14 +75,15 @@ class Contact extends ApiClient
      * @param int $depth
      * @return mixed
      */
-    public function allCustomers(int $depth = 0)
+    public function allCustomers(int $depth = 0, int $limit = 1000)
     {
         return Collection::make($this->_get(Routes::CONTACT, [
             'category' => [
                 "id" => self::CUSTOMER,
                 "objectName" => "Category"
             ],
-            'depth' => $depth,
+            'depth' => $depth, 
+            'limit' => $limit,
         ]));
     }
 
@@ -91,7 +93,7 @@ class Contact extends ApiClient
      * @param int $depth
      * @return mixed
      */
-    public function allPartners(int $depth = 0)
+    public function allPartners(int $depth = 0, int $limit = 1000)
     {
         return Collection::make($this->_get(Routes::CONTACT, [
             'category' => [
@@ -99,6 +101,7 @@ class Contact extends ApiClient
                 "objectName" => "Category"
             ],
             'depth' => $depth,
+            'limit' => $limit,
         ]));
     }
 
@@ -108,14 +111,15 @@ class Contact extends ApiClient
      * @param int $depth
      * @return mixed
      */
-    public function allProspectCustomers(int $depth = 0)
+    public function allProspectCustomers(int $depth = 0, int $limit = 1000)
     {
         return Collection::make($this->_get(Routes::CONTACT, [
             'category' => [
                 "id" => self::PROSPECT_CUSTOMER,
                 "objectName" => "Category"
             ],
-            'depth' => $depth,
+            'depth' => $depth, 
+            'limit' => $limit,
         ]));
     }
 
@@ -126,7 +130,7 @@ class Contact extends ApiClient
      * @param int $depth
      * @return mixed
      */
-    public function allCustom(int $contactCategory, int $depth = 0)
+    public function allCustom(int $contactCategory, int $depth = 0, int $limit = 1000)
     {
         return Collection::make($this->_get(Routes::CONTACT, [
             'category' => [
@@ -134,6 +138,7 @@ class Contact extends ApiClient
                 "objectName" => "Category"
             ],
             'depth' => $depth,
+            'limit' => $limit,
         ]));
     }
 
