@@ -7,7 +7,9 @@
 
 namespace Exlo89\LaravelSevdeskApi\Api;
 
+use Exlo89\LaravelSevdeskApi\Models\SevContactAddress;
 use Illuminate\Support\Collection;
+use Exlo89\LaravelSevdeskApi\Constants\Country;
 use Exlo89\LaravelSevdeskApi\Api\Utils\ApiClient;
 use Exlo89\LaravelSevdeskApi\Api\Utils\Routes;
 
@@ -18,12 +20,13 @@ use Exlo89\LaravelSevdeskApi\Api\Utils\Routes;
  */
 class ContactAddress extends ApiClient
 {
+
     /**
      * Return all contact addresses.
      *
-     * @return mixed
+     * @return Collection
      */
-    public function all(int $limit = 1000)
+    public function all(int $limit = 1000): Collection
     {
         return Collection::make($this->_get(Routes::CONTACT_ADDRESS, ['limit' => $limit]));
     }
@@ -32,26 +35,34 @@ class ContactAddress extends ApiClient
      * Find an addresses for the contact address id.
      *
      * @param int $contactAddressId
-     * @return mixed
+     * @return Collection
      */
-    public function findFromAddressId(int $contactAddressId)
+    public function findFromAddressId(int $contactAddressId): Collection
     {
         return Collection::make($this->_get(Routes::CONTACT_ADDRESS . '/' . $contactAddressId));
     }
 
     /**
      * Create contact address.
+     * Country is required. Germany is set as default.
      *
      * @param int $contactId
      * @param array $parameters
      * @return mixed
+     * @see StaticCountry::all() to get id of your country as api request
+     * @see Country to get id of your country as enum
      */
-    public function create(int $contactId, array $parameters = [])
+    public function create(int $contactId, array $parameters = []): SevContactAddress
     {
         $parameters['contact'] = [
             "id" => $contactId,
             "objectName" => "Contact",
         ];
-        return $this->_post(Routes::CONTACT_ADDRESS, $parameters);
+        // on null add default value to country
+        $parameters['country'] = $parameters['country'] ?? [
+            "id" => Country::GERMANY,
+            "objectName" => "StaticCountry",
+        ];
+        return SevContactAddress::make($this->_post(Routes::CONTACT_ADDRESS, $parameters));
     }
 }

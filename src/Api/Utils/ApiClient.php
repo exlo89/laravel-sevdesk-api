@@ -9,6 +9,7 @@ namespace Exlo89\LaravelSevdeskApi\Api\Utils;
 
 use GuzzleHttp\Exception\BadResponseException;
 use GuzzleHttp\Client;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class ApiClient
 {
@@ -42,8 +43,12 @@ class ApiClient
             $responseBody = json_decode((string)$response->getBody(), true);
             return $responseBody['objects'];
         } catch (BadResponseException $exception) {
-            $response = $exception->getResponse();
-            return json_decode((string)$response->getBody(), true);
+            $response = json_decode((string)$exception->getResponse()->getBody(), true);
+            if (array_key_exists('error', $response)) {
+                if($response['error']['code'] == 151) throw new ModelNotFoundException($response['error']['message']);
+                if($response['error']['message'] != null)  throw new \Exception($response['error']['message']);;
+            }
+            throw new \Exception('Something went wrong.');
         }
 
     }
