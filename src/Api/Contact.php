@@ -16,6 +16,8 @@ use Exlo89\LaravelSevdeskApi\Api\Utils\Routes;
 /**
  * Sevdesk Contact Api
  *
+ * test *description*
+ *
  * @see https://api.sevdesk.de/#tag/Contact
  */
 class Contact extends ApiClient
