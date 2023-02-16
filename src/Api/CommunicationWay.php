@@ -9,6 +9,7 @@ namespace Exlo89\LaravelSevdeskApi\Api;
 
 use Exlo89\LaravelSevdeskApi\Api\Utils\ApiClient;
 use Exlo89\LaravelSevdeskApi\Api\Utils\Routes;
+use Exlo89\LaravelSevdeskApi\Models\SevCommunicationWay;
 use Illuminate\Support\Collection;
 
 /**
@@ -43,9 +44,9 @@ class CommunicationWay extends ApiClient
     /**
      * Return all communication way.
      *
-     * @return mixed
+     * @return Collection
      */
-    public function all()
+    public function all(): Collection
     {
         return Collection::make($this->_get(Routes::COMMUNICATION_WAY));
     }
@@ -53,9 +54,9 @@ class CommunicationWay extends ApiClient
     /**
      * Return a single communication way.
      *
-     * @return mixed
+     * @return Collection
      */
-    public function getByContact(int $contactId)
+    public function getByContact(int $contactId): Collection
     {
         return Collection::make($this->_get(Routes::COMMUNICATION_WAY, [
             'contact' => [
@@ -73,9 +74,9 @@ class CommunicationWay extends ApiClient
      * @param int $contactId
      * @param string $communicationType
      * @param string $value
-     * @return mixed
+     * @return array
      */
-    private function create(int $contactId, string $communicationType, string $value)
+    private function create(int $contactId, string $communicationType, string $value): array
     {
         return $this->_post(Routes::COMMUNICATION_WAY, [
             'type' => $communicationType,
@@ -96,11 +97,11 @@ class CommunicationWay extends ApiClient
      *
      * @param int $contactId
      * @param string $email
-     * @return mixed
+     * @return SevCommunicationWay
      */
-    public function createEmail(int $contactId, string $email)
+    public function createEmail(int $contactId, string $email): SevCommunicationWay
     {
-        return $this->create($contactId, self::EMAIL_TYPE, $email);
+        return SevCommunicationWay::make($this->create($contactId, self::EMAIL_TYPE, $email));
     }
 
     /**
@@ -108,11 +109,11 @@ class CommunicationWay extends ApiClient
      *
      * @param int $contactId
      * @param string $phone
-     * @return mixed
+     * @return SevCommunicationWay
      */
-    public function createPhone(int $contactId, string $phone)
+    public function createPhone(int $contactId, string $phone): SevCommunicationWay
     {
-        return $this->create($contactId, self::PHONE_TYPE, $phone);
+        return SevCommunicationWay::make($this->create($contactId, self::PHONE_TYPE, $phone));
     }
 
     /**
@@ -120,11 +121,11 @@ class CommunicationWay extends ApiClient
      *
      * @param int $contactId
      * @param string $website
-     * @return mixed
+     * @return SevCommunicationWay
      */
-    public function createWebsite(int $contactId, string $website)
+    public function createWebsite(int $contactId, string $website): SevCommunicationWay
     {
-        return $this->create($contactId, self::WEB_TYPE, $website);
+        return SevCommunicationWay::make($this->create($contactId, self::WEB_TYPE, $website));
     }
 
     // ========================== delete ==================================
@@ -133,9 +134,9 @@ class CommunicationWay extends ApiClient
      * Delete an existing communication way.
      *
      * @param $communicationWayId
-     * @return mixed
+     * @return array
      */
-    public function delete($communicationWayId)
+    public function delete($communicationWayId): array
     {
         return $this->_delete(Routes::COMMUNICATION_WAY . '/' . $communicationWayId);
     }

@@ -7,6 +7,7 @@
 
 namespace Exlo89\LaravelSevdeskApi\Api\Utils;
 
+use Exlo89\LaravelSevdeskApi\Api\Invoice;
 use GuzzleHttp\Exception\BadResponseException;
 use GuzzleHttp\Client;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -45,8 +46,8 @@ class ApiClient
         } catch (BadResponseException $exception) {
             $response = json_decode((string)$exception->getResponse()->getBody(), true);
             if (array_key_exists('error', $response)) {
-                if($response['error']['code'] == 151) throw new ModelNotFoundException($response['error']['message']);
-                if($response['error']['message'] != null)  throw new \Exception($response['error']['message']);;
+                if ($response['error']['code'] == 151) throw new ModelNotFoundException($response['error']['message']);
+                if ($response['error']['message'] != null) throw new \Exception($response['error']['message']);;
             }
             throw new \Exception('Something went wrong.');
         }
@@ -78,5 +79,16 @@ class ApiClient
     public function _delete($url = null, array $parameters = [])
     {
         return $this->execute('delete', $url, $parameters);
+    }
+
+    // =========================== helper ===========================================
+
+    const INVOICE = 'Invoice';
+    const CREDIT_NOTE = 'CreditNote';
+
+    public function getNextSequence(string $objectType = self::INVOICE)
+    {
+        $sequence = $this->_get(Routes::SEQUENCE, ['objectType' => $objectType]);
+        return str_replace('%NUMBER',$sequence['nextSequence'],$sequence['format']);
     }
 }

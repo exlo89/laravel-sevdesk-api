@@ -7,6 +7,9 @@
 
 namespace Exlo89\LaravelSevdeskApi\Api;
 
+use Exception;
+use Exlo89\LaravelSevdeskApi\Constants\Country;
+use Exlo89\LaravelSevdeskApi\Models\SevInvoice;
 use Illuminate\Support\Collection;
 use Exlo89\LaravelSevdeskApi\Api\Utils\ApiClient;
 use Exlo89\LaravelSevdeskApi\Api\Utils\Routes;
@@ -108,10 +111,106 @@ class Invoice extends ApiClient
     /**
      * Create invoice.
      *
+     * @param $contactId
+     * @param $items
+     * @param array $parameters
      * @return mixed
+     * @throws Exception
      */
-    public function create($contactId, array $parameters = [])
+    public function create($contactId, $items, array $parameters = [])
     {
+        return SevInvoice::make($this->_post(Routes::CREATE_INVOICE, $this->getParameters($contactId, $items, $parameters))['invoice']);
+    }
+
+    /**
+     * Validate and return config values.
+     *
+     * @return array
+     * @throws Exception
+     */
+    private function getConfigs(): array
+    {
+        $values = [];
+        $values['taxRate'] = config('sevdesk-api.tax_rate');
+        if (empty($values['taxRate'])) {
+            throw new Exception('Configuration parameter not found: tax_rate');
+        }
+
+        $values['taxText'] = config('sevdesk-api.tax_text');
+        if (empty($values['taxText'])) {
+            throw new Exception('Configuration parameter not found: tax_text');
+        }
+
+        $values['taxType'] = config('sevdesk-api.tax_type');
+        if (empty($values['taxType'])) {
+            throw new Exception('Configuration parameter not found: tax_type');
+        }
+
+        $values['invoiceType'] = config('sevdesk-api.invoice_type');
+        if (empty($values['invoiceType'])) {
+            throw new Exception('Configuration parameter not found: invoice_type');
+        }
+
+        $values['currency'] = config('sevdesk-api.currency');
+        if (empty($values['currency'])) {
+            throw new Exception('Configuration parameter not found: currency');
+        }
+
+        $values['sevUserId'] = config('sevdesk-api.sev_user_id');
+        if (empty($values['sevUserId'])) {
+            throw new Exception('Configuration parameter not found: sev_user_id');
+        }
+        return $values;
+    }
+
+    /**
+     * Format items
+     *
+     * @param $items
+     * @param $configs
+     * @return array
+     * @throws Exception
+     */
+    private function getInvoiceItems($items, $configs): array
+    {
+        $invoiceItems = [];
+        if (empty($items)) {
+            throw new Exception('No invoice items found');
+        }
+        foreach ($items as $item) {
+            if (array_key_exists('name', $item) && array_key_exists('price', $item)) {
+                $invoiceItems[] = [
+                    'objectName' => 'InvoicePos',
+                    'mapAll' => 'true',
+                    'quantity' => $item['quantity'] ?? 1,
+                    'price' => $item['price'],
+                    'name' => $item['name'],
+                    'text' => $item['text'] ?? '',
+                    'taxRate' => $configs['taxRate'],
+                    'unity' => [
+                        'id' => 1,
+                        'objectName' => 'Unity',
+                    ]
+
+                ];
+            }
+        }
+        return $invoiceItems;
+    }
+
+    /**
+     * @param $contactId
+     * @param $items
+     * @param $parameters
+     * @return array
+     * @throws Exception
+     */
+    private function getParameters($contactId, $items, $parameters): array
+    {
+        // validate config values
+        $configs = $this->getConfigs();
+        // fetch and format next invoice number
+        $nextSequence = $this->getNextSequence();
         $requiredParameters = [
             'invoice' => [
                 'objectName' => 'Invoice',
@@ -119,35 +218,30 @@ class Invoice extends ApiClient
                     'id' => $contactId,
                     'objectName' => 'Contact'
                 ],
+                'header' => 'Rechnung NR. ' . $nextSequence, //TODO (Martin): find better solution to generate header
+                'invoiceNumber' => $nextSequence,
                 'invoiceDate' => date('Y-m-d H:i:s'),
                 'discount' => 0,
                 'addressCountry' => [
-                    'id' => 1,
+                    'id' => $parameters['country'] ?? Country::GERMANY,
                     'objectName' => 'StaticCountry'
                 ],
-                'status' => self::DRAFT,
+                'status' => $parameters['status'] ?? self::DRAFT,
                 'contactPerson' => [
-                    'id' => config('sevdesk-api.sev_user_id'),
+                    'id' => $configs['sevUserId'],
                     'objectName' => 'SevUser'
                 ],
-                'taxRate' => config('sevdesk-api.tax_rate'),
-                'taxText' => config('sevdesk-api.tax_text'),
-                'taxType' => config('sevdesk-api.tax_type'),
-                'invoiceType' => config('sevdesk-api.invoice_type'),
-                'currency' => config('sevdesk-api.currency'),
+                'taxRate' => $configs['taxRate'],
+                'taxText' => $configs['taxText'],
+                'taxType' => $configs['taxType'],
+                'invoiceType' => $configs['invoiceType'],
+                'currency' => $configs['currency'],
                 'mapAll' => 'true'
             ],
-            'invoicePosSave' => [
-                'objectName' => 'InvoicePos',
-                'quantity' => 1,
-                'unity' => [
-                    'id' => 1,
-                    'objectName' => 'Unity',
-                ]
-            ]
+            'invoicePosSave' => $this->getInvoiceItems($items, $configs)
         ];
-        $allParameters = array_replace_recursive($requiredParameters, $parameters);
-        return $this->_post(Routes::CREATE_INVOICE, $allParameters);
+        return array_replace_recursive($requiredParameters, $parameters);
+
     }
 
     // =======================================================================

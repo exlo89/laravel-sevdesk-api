@@ -48,7 +48,7 @@ class ContactAddress extends ApiClient
      *
      * @param int $contactId
      * @param array $parameters
-     * @return mixed
+     * @return SevContactAddress
      * @see StaticCountry::all() to get id of your country as api request
      * @see Country to get id of your country as enum
      */

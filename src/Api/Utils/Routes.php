@@ -15,6 +15,8 @@ class Routes
     const COMMUNICATION_WAY = 'CommunicationWay';
     const CREDIT_NOTE = 'CreditNote';
     const INVOICE = 'Invoice';
+    const SEV_USER = 'SevUser';
     const CREATE_INVOICE = 'Invoice/Factory/saveInvoice';
-    const STATIC_COUNTRY= 'StaticCountry';
+    const STATIC_COUNTRY = 'StaticCountry';
+    const SEQUENCE = 'SevSequence/Factory/getByType';
 }
