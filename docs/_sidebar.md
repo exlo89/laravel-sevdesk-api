@@ -3,3 +3,4 @@
 
 - API 
   - [Invoice](invoice.md)
+  - [Contact](contact.md)
