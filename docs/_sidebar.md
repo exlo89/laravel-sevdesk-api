@@ -1,5 +1,4 @@
-- Introduction
-  - [Getting Started](gettingstarted.md)
+- [Getting Started](gettingstarted)
 
 - API 
   - [Invoice](invoice.md)

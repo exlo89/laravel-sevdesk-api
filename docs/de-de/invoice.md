@@ -45,3 +45,25 @@ enthalten.
 ```php
 $sevdeskApi->invoice()->sendPerMail($invoiceId, $email, $subject, $text);
 ```
+
+## Rechnung erstellen
+
+Um eine Rechnung zu erstellen, verwenden die Funktion `create()`. Fügen die `invoiceId` und ein Array mit Ihren
+Rechnungsposition hinzu. Die `$Parameter` sind optional. Für weitere Informationen schaue in die
+offizielle [API-Dokumentation](https://api.sevdesk.de/#tag/Invoice/operation/createInvoiceByFactory).
+
+```php
+$items = [
+    [
+        'name' => 'Web Design',
+        'Preis' => 5,
+    ],
+    [
+        'name' => 'Server Hosting',
+        'Preis' => 10,
+        'quantity' => 5 // (optional) standardmäßig ist es 1 
+        'text' => 'Wordpress Server' // (optional) Beschreibung unter dem Namen
+    ],
+]
+$sevdeskApi->Rechnung()->create($invoiceId, $items, $parameters);
+```

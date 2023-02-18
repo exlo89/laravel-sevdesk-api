@@ -8,6 +8,7 @@
 namespace Exlo89\LaravelSevdeskApi;
 
 use Illuminate\Support\ServiceProvider;
+use Exlo89\LaravelSevdeskApi\Console\RetrieveSevUser;
 
 class SevdeskApiServiceProvider extends ServiceProvider
 {
@@ -31,6 +32,9 @@ class SevdeskApiServiceProvider extends ServiceProvider
     public function boot()
     {
         if ($this->app->runningInConsole()) {
+            $this->commands([
+                RetrieveSevUser::class,
+            ]);
             $this->publishes([
                 __DIR__ . '/../config/config.php' => config_path('sevdesk-api.php'),
             ], 'config');

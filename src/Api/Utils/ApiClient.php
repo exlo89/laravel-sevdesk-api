@@ -7,10 +7,11 @@
 
 namespace Exlo89\LaravelSevdeskApi\Api\Utils;
 
+use Illuminate\Validation\UnauthorizedException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Exlo89\LaravelSevdeskApi\Api\Invoice;
 use GuzzleHttp\Exception\BadResponseException;
 use GuzzleHttp\Client;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class ApiClient
 {
@@ -48,6 +49,9 @@ class ApiClient
             if (array_key_exists('error', $response)) {
                 if ($response['error']['code'] == 151) throw new ModelNotFoundException($response['error']['message']);
                 if ($response['error']['message'] != null) throw new \Exception($response['error']['message']);;
+            }
+            if (array_key_exists('status', $response)) {
+                if ($response['status'] == 401) throw new UnauthorizedException($response['message']);
             }
             throw new \Exception('Something went wrong.');
         }
@@ -89,6 +93,6 @@ class ApiClient
     public function getNextSequence(string $objectType = self::INVOICE)
     {
         $sequence = $this->_get(Routes::SEQUENCE, ['objectType' => $objectType]);
-        return str_replace('%NUMBER',$sequence['nextSequence'],$sequence['format']);
+        return str_replace('%NUMBER', $sequence['nextSequence'], $sequence['format']);
     }
 }

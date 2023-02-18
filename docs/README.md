@@ -18,7 +18,7 @@ composer require exlo89/laravel-sevdesk-api
 
 Set your api token with
 
-```
+```dotenv
 SEVDESK_API_TOKEN=xxxxxxxx
 ```
 
