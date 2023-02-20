@@ -8,6 +8,10 @@ This package make a connection to the sevdesk api and let you interact with it.
 
 [Sevdesk API Documentation](https://hilfe.sevdesk.de/knowledge/sevdesk-rest-full-api)
 
+## Documentation
+
+- [Official Documentation](https://exlo89.github.io/laravel-sevdesk-api).
+
 ## Installation
 
 You can install the package via composer:
@@ -26,17 +30,6 @@ Optionally you can publish the config file with:
 
 ```bash
 php artisan vendor:publish --provider="Exlo89\LaravelSevdeskApi\SevdeskApiServiceProvider" --tag="config"
-```
-
-This is the contents of the published config file:
-
-```php
-return [
-    /*
-     * Api token you from sevdesk. 
-     */
-    'api_token' => env('SEVDESK_API_TOKEN', ''),
-];
 ```
 
 ## Usage
