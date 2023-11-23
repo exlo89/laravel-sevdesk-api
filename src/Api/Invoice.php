@@ -238,6 +238,7 @@ class Invoice extends ApiClient
                 'currency' => $configs['currency'],
                 'mapAll' => 'true'
             ],
+            'takeDefaultAddress' => 'true',
             'invoicePosSave' => $this->getInvoiceItems($items, $configs)
         ];
         return array_replace_recursive($requiredParameters, $parameters);
