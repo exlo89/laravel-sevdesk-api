@@ -43,7 +43,7 @@ $sevdeskApi->invoice()->sendPerMail($invoiceId, $email, $subject, $text);
 
 ## Create Invoice
 
-To create an invoice use the `create()` function. Add `invoiceId` and an array of your invoice items. `$parameters` are
+To create an invoice use the `create()` function. Add `customerId` and an array of your invoice items. `$parameters` are
 optional. For further information look at the
 official [API documentation](https://api.sevdesk.de/#tag/Invoice/operation/createInvoiceByFactory).
 
@@ -60,5 +60,5 @@ $items = [
         'text' => 'Wordpress Server'    // (optional) description below name
     ],
 ]
-$sevdeskApi->invoice()->create($invoiceId, $items, $parameters);
+$sevdeskApi->invoice()->create($customerId, $items, $parameters);
 ```

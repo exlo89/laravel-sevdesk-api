@@ -48,7 +48,7 @@ $sevdeskApi->invoice()->sendPerMail($invoiceId, $email, $subject, $text);
 
 ## Rechnung erstellen
 
-Um eine Rechnung zu erstellen, verwenden die Funktion `create()`. Fügen die `invoiceId` und ein Array mit Ihren
+Um eine Rechnung zu erstellen, verwenden die Funktion `create()`. Fügen die `customerId` und ein Array mit Ihren
 Rechnungsposition hinzu. Die `$Parameter` sind optional. Für weitere Informationen schaue in die
 offizielle [API-Dokumentation](https://api.sevdesk.de/#tag/Invoice/operation/createInvoiceByFactory).
 
@@ -65,5 +65,5 @@ $items = [
         'text' => 'Wordpress Server' // (optional) Beschreibung unter dem Namen
     ],
 ]
-$sevdeskApi->Rechnung()->create($invoiceId, $items, $parameters);
+$sevdeskApi->Rechnung()->create($customerId, $items, $parameters);
 ```
