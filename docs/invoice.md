@@ -1,5 +1,35 @@
 # Invoice
 
+If you want to create invoices you need to set these configs:
+
+```dotenv
+SEVDESK_TAX_RATE=19
+SEVDESK_TAX_TEXT="Vat 19%"
+SEVDESK_TAX_TYPE=default
+SEVDESK_CURRENCY=EUR
+SEVDESK_INVOICE_TYPE=RE
+```
+These values are default values but please feel free to change this values.
+For the tax type you can choose 5 different types:
+- [default] - value added tax
+- [eu] - tax-free intra-community supply (European Union)
+- [noteu] - tax liability of the recipient (outside the EU, e.g. Switzerland)
+- [custom] - using custom tax set
+- [ss] - Not subject to VAT according to §19 1 UStG Tax rates are heavily connected to the tax type used.
+
+Also you can choose between 6 different invoice types:
+
+- [RE] A normal invoice which documents a simple selling process.
+- [WKR] An invoice which generates normal invoices with the same values regularly in fixed time frames (every month, year, ...).
+- [SR] An invoice which cancels another already created normal invoice.
+- [MA] An invoice which gets created if the end-customer failed to pay a normal invoice in a given time frame.
+  Often includes some kind of reminder fee.
+- [TR] Part of a complete invoice. All part invoices together result in the complete invoice.
+  Often used if the end-customer can partly pay for items or services.
+- [ER] 	The final invoice of all part invoices which completes the invoice.
+  After the final invoice is payed by the end-customer, the selling process is complete.
+
+For more details about invoice types click [here](https://api.sevdesk.de/#tag/Invoice/Types-and-status-of-invoices).
 ## Retrieve Invoice
 
 To get all invoices.
@@ -29,18 +59,6 @@ $sevdeskApi->invoice()->allAfter($timestamp);
 $sevdeskApi->invoice()->allBefore($timestamp);
 ```
 
-To download pdf file of the giving `$invoiceId`.
-
-```php
-$sevdeskApi->invoice()->download($invoiceId);
-```
-
-To send invoice to giving `$email`. Use `$subject` and `$text` to edit the mail. `$text` can contain html.
-
-```php
-$sevdeskApi->invoice()->sendPerMail($invoiceId, $email, $subject, $text);
-```
-
 ## Create Invoice
 
 To create an invoice use the `create()` function. Add `customerId` and an array of your invoice items. `$parameters` are
@@ -61,4 +79,20 @@ $items = [
     ],
 ]
 $sevdeskApi->invoice()->create($customerId, $items, $parameters);
+```
+
+## Download Invoice
+
+To download pdf file of the giving `$invoiceId`.
+
+```php
+$sevdeskApi->invoice()->download($invoiceId);
+```
+
+## Send Invoice By Mail
+
+To send invoice to giving `$email`. Use `$subject` and `$text` to edit the mail. `$text` can contain html.
+
+```php
+$sevdeskApi->invoice()->sendPerMail($invoiceId, $email, $subject, $text);
 ```

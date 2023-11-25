@@ -18,12 +18,6 @@ $sevdeskApi->contact()->createPartner('Partner Organisation', $parameters);
 $sevdeskApi->contact()->createProspectCustomer('Prospect Customer Organisation', $parameters);
 ```
 
-For accounting contact you have to create a contact first. You create a accounting contact using the created contact id.
-
-```php
-$sevdeskApi->contact()->createAccountingContact($contactId);
-```
-
 For custom contact types use your custom category id.
 
 ```php

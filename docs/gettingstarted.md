@@ -9,7 +9,7 @@ composer require exlo89/laravel-sevdesk-api
 ```
 
 To use the Sevdesk API you need an API key. You can find it on your Sevdesk platform
-under ["Settings" > "Users"](https://my.sevdesk.de/#/admin/userManagement). Select the admin user and
+under ["Extensions" > "API"](https://my.sevdesk.de/admin/api) or ["Settings" > "Users"](https://my.sevdesk.de/#/admin/userManagement). Select the admin user and
 at the bottom of the "API-Token" section, you will get the key.
 
 Add this key to your `.env` file.
@@ -72,5 +72,3 @@ file.
 ```dotenv
 SEVDESK_SEV_USER=xxxxx
 ```
-
-Translated with www.DeepL.com/Translator (free version)

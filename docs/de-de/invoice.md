@@ -1,4 +1,35 @@
 # Rechnungen
+Wenn du Rechnungen erstellen willst, benötigst du folgende Konfigurationen:
+
+```dotenv
+SEVDESK_TAX_RATE=19
+SEVDESK_TAX_TEXT="Mehrwertsteuer 19%"
+SEVDESK_TAX_TYPE=Standard
+SEVDESK_CURRENCY=EUR
+SEVDESK_INVOICE_TYPE=RE
+```
+Das sind alles Standartwerte. Du kannst die Werte für dich anpassen.
+
+Für die Tax Type gibt es 5 verschiedene Arten:
+- [default] - Umsatzsteuer ausweisen
+- [eu] - Steuerfreie innergemeinschaftliche Lieferung (Europäische Union)
+- [noteu] - Steuerschuldnerschaft des Leistungsempfängers (außerhalb EU, z. B. Schweiz)
+- [custom] - benutzerdefinierter Steuersatz
+- [ss] - nicht umsatzsteuerpflichtig nach §19 1 UStG Die Steuersätze sind stark von der verwendeten Steuerart abhängig.
+
+Außerdem kannst du zwischen 6 verschiedenen Rechnungstypen wählen:
+
+- [RE] Eine normale Rechnung, die einen einfachen Verkaufsvorgang dokumentiert.
+- [WKR] Eine Rechnung, die regelmäßig in festen Zeiträumen (monatlich, jährlich, ...) normale Rechnungen mit den gleichen Werten erstellt.
+- [SR] Eine Rechnung, die eine andere bereits erstellte normale Rechnung storniert.
+- [MA] Eine Rechnung, die erstellt wird, wenn der Endkunde eine normale Rechnung nicht innerhalb eines bestimmten Zeitrahmens bezahlt hat.
+  Enthält oft eine Art Mahngebühr.
+- [TR] Teil einer vollständigen Rechnung. Alle Teilrechnungen zusammen ergeben die Gesamtrechnung.
+  Wird oft verwendet, wenn der Endkunde Artikel oder Dienstleistungen teilweise bezahlen kann.
+- [ER] Die Schlussrechnung aller Teilrechnungen, die die Rechnung vervollständigt.
+  Nachdem die Schlussrechnung vom Endkunden bezahlt wurde, ist der Verkaufsprozess abgeschlossen.
+
+Für mehr Details klicke [hier](https://api.sevdesk.de/#tag/Invoice/Types-and-status-of-invoices).
 
 ## Rechnungen Abfragen
 
@@ -32,20 +63,6 @@ $sevdeskApi->invoice()->allAfter($timestamp);
 $sevdeskApi->invoice()->allBefore($timestamp);
 ```
 
-Um eine Rechnung runterzuladen, rufe die Funktion `donwload()` auf mit der Rechnungs ID `$invoiceId` als Parameter.
-
-```php
-$sevdeskApi->invoice()->download($invoiceId);
-```
-
-Um eine Rechnung per E-Mail zu versenden, rufe die Funktion `sendPerMail()` auf mit der Rechnungs-ID `$invoiceId`.
-Die Parameter `$email`, `$subject` und `$text` sind für die E-Mail Bearbeitung zuständig. `$text` kann auch HTML
-enthalten.
-
-```php
-$sevdeskApi->invoice()->sendPerMail($invoiceId, $email, $subject, $text);
-```
-
 ## Rechnung erstellen
 
 Um eine Rechnung zu erstellen, verwenden die Funktion `create()`. Fügen die `customerId` und ein Array mit Ihren
@@ -65,5 +82,23 @@ $items = [
         'text' => 'Wordpress Server' // (optional) Beschreibung unter dem Namen
     ],
 ]
-$sevdeskApi->Rechnung()->create($customerId, $items, $parameters);
+$sevdeskApi->invoice()->create($customerId, $items, $parameters);
+```
+
+## Rechnung herunterladen
+
+Um eine Rechnung runterzuladen, rufe die Funktion `download()` auf mit der Rechnungs ID `$invoiceId` als Parameter.
+
+```php
+$sevdeskApi->invoice()->download($invoiceId);
+```
+
+## Rechnung per Mail versenden
+
+Um eine Rechnung per E-Mail zu versenden, rufe die Funktion `sendPerMail()` auf mit der Rechnungs-ID `$invoiceId`.
+Die Parameter `$email`, `$subject` und `$text` sind für die E-Mail Bearbeitung zuständig. `$text` kann auch HTML
+enthalten.
+
+```php
+$sevdeskApi->invoice()->sendPerMail($invoiceId, $email, $subject, $text);
 ```

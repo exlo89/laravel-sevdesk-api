@@ -8,7 +8,6 @@
 namespace Exlo89\LaravelSevdeskApi\Api;
 
 use Illuminate\Support\Collection;
-use Exlo89\LaravelSevdeskApi\Models\SevAccountingContact;
 use Exlo89\LaravelSevdeskApi\Models\SevContact;
 use Exlo89\LaravelSevdeskApi\Api\Utils\ApiClient;
 use Exlo89\LaravelSevdeskApi\Api\Utils\Routes;
@@ -172,6 +171,16 @@ class Contact extends ApiClient
         return SevContact::make($this->_get(Routes::CONTACT . '/' . $contactId)[0]);
     }
 
+    /**
+     * Return next contact number.
+     *
+     * @return int
+     */
+    public function getNextCustomerNumber(): int
+    {
+        return $this->_get(Routes::CONTACT.'/Factory/getNextCustomerNumber');
+    }
+
     // ========================== create ==================================
 
     /**
@@ -193,52 +202,52 @@ class Contact extends ApiClient
     /**
      * Create supplier contact.
      *
-     * @param string $organisationName
+     * @param string $supplierName
      * @param array $parameters
      * @return SevContact
      */
-    public function createSupplier(string $organisationName, array $parameters = []): SevContact
+    public function createSupplier(string $supplierName, array $parameters = []): SevContact
     {
-        $parameters['name'] = $organisationName;
+        $parameters['name'] = $supplierName;
         return SevContact::make($this->create(self::SUPPLIER, $parameters));
     }
 
     /**
      * Create customer contact.
      *
-     * @param string $organisationName
+     * @param string $customerName
      * @param array $parameters
      * @return SevContact
      */
-    public function createCustomer(string $organisationName, array $parameters = []): SevContact
+    public function createCustomer(string $customerName, array $parameters = []): SevContact
     {
-        $parameters['name'] = $organisationName;
+        $parameters['name'] = $customerName;
         return SevContact::make($this->create(self::CUSTOMER, $parameters));
     }
 
     /**
      * Create partner contact.
      *
-     * @param string $organisationName
+     * @param string $partnerName
      * @param array $parameters
      * @return SevContact
      */
-    public function createPartner(string $organisationName, array $parameters = []): SevContact
+    public function createPartner(string $partnerName, array $parameters = []): SevContact
     {
-        $parameters['name'] = $organisationName;
+        $parameters['name'] = $partnerName;
         return SevContact::make($this->create(self::PARTNER, $parameters));
     }
 
     /**
      * Create prospect customer contact.
      *
-     * @param string $organisationName
+     * @param string $prospectCustomerName
      * @param array $parameters
      * @return SevContact
      */
-    public function createProspectCustomer(string $organisationName, array $parameters = []): SevContact
+    public function createProspectCustomer(string $prospectCustomerName, array $parameters = []): SevContact
     {
-        $parameters['name'] = $organisationName;
+        $parameters['name'] = $prospectCustomerName;
         return SevContact::make($this->create(self::PROSPECT_CUSTOMER, $parameters));
     }
 
@@ -276,10 +285,10 @@ class Contact extends ApiClient
      * Delete an existing contact.
      *
      * @param $contactId
-     * @return array
+     * @return void
      */
-    public function delete($contactId): array
+    public function delete($contactId): void
     {
-        return $this->_delete(Routes::CONTACT . '/' . $contactId);
+        $this->_delete(Routes::CONTACT . '/' . $contactId);
     }
 }
