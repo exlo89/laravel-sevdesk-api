@@ -41,7 +41,7 @@ class ApiClient
     {
         try {
             $parameters['token'] = $this->getToken();
-            $response = $this->getClient()->{$httpMethod}('api/v1/' . $url, ['query' => $parameters]);
+            $response = $this->getClient()->{$httpMethod}('api/v1/' . $url, ['json' => $parameters]);
             $responseBody = json_decode((string)$response->getBody(), true);
             return $responseBody['objects'];
         } catch (BadResponseException $exception) {
