@@ -227,17 +227,21 @@ class Invoice extends ApiClient
         foreach ($items as $item) {
             if (array_key_exists('name', $item) && array_key_exists('price', $item)) {
                 $invoiceItems[] = [
-                    'objectName' => 'InvoicePos',
-                    'mapAll'     => 'true',
-                    'quantity'   => $item['quantity'] ?? 1,
-                    'price'      => $item['price'],
-                    'name'       => $item['name'],
-                    'text'       => $item['text'] ?? '',
-                    'taxRate'    => $configs['taxRate'],
-                    'unity'      => [
+                    'objectName'     => 'InvoicePos',
+                    'mapAll'         => 'true',
+                    'quantity'       => $item['quantity'] ?? 1,
+                    'price'          => $item['price'],
+                    'name'           => $item['name'],
+                    'positionNumber' => $item['positionNumber'] ?? null,
+                    'text'           => $item['text'] ?? '',
+                    'discount'       => $item['discount'] ?? null,
+                    'taxRate'        => $configs['taxRate'],
+                    'unity'          => [
                         'id'         => 1,
                         'objectName' => 'Unity',
-                    ]
+                    ],
+                    'priceGross'     => $item['priceGross'] ?? null,
+                    'priceTax'       => $item['priceTax'] ?? null
 
                 ];
             }
