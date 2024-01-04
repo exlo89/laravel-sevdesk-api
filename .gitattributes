@@ -9,3 +9,9 @@
 /.scrutinizer.yml   export-ignore
 /tests              export-ignore
 /.editorconfig      export-ignore
+/docs
+/.phpunit.result.cache
+/CONTRIBUTING.md
+/CHANGELOG.md
+/.styleci.yml
+/.github
