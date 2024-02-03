@@ -32,13 +32,14 @@ Also you can choose between 6 different invoice types:
 For more details about invoice types click [here](https://api.sevdesk.de/#tag/Invoice/Types-and-status-of-invoices).
 ## Retrieve Invoice
 
-To get all invoices.
+To get all invoices call the `all()` function.
 
 ```php
 $sevdeskApi->invoice()->all();
 ```
 
-To get all invoices filtered by status `draft`, `open` or `payed`.
+To get the invoices filtered by `draft`, `open` or `payed`, call the `allDraft()`,`allOpen()`
+or `allPayed()` function.
 
 ```php
 $sevdeskApi->invoice()->allDraft();
@@ -46,17 +47,21 @@ $sevdeskApi->invoice()->allOpen();
 $sevdeskApi->invoice()->allPayed();
 ```
 
-To get all invoices filtered by a giving `$contactId`.
+To filter invoices by contact, call the `allByContact()` function with the contact ID as `$contactId`
+Parameters.
 
 ```php
 $sevdeskApi->invoice()->allByContact($contactId);
 ```
 
-To get all invoices filtered by giving `$timestamp`.
+To filter invoices before or after a certain date, call either the `allBefor()` or the `allAfter()` function with the respective timestamp `$timestamp` as a parameter.
+function with the respective timestamp `$timestamp` as a parameter. With the `allBetween()` function it is possible to filter
+by a specific time period.
 
 ```php
 $sevdeskApi->invoice()->allAfter($timestamp);
 $sevdeskApi->invoice()->allBefore($timestamp);
+$sevdeskApi->invoice()->allBetween($startTimestamp, $endTimestamp);
 ```
 
 ## Create Invoice

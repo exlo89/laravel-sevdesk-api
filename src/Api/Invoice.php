@@ -8,7 +8,8 @@
 namespace Exlo89\LaravelSevdeskApi\Api;
 
 use Exception;
-use Exlo89\LaravelSevdeskApi\Constants\Country;
+use Exlo89\LaravelSevdeskApi\Api\Utils\DocumentHelper;
+use Exlo89\LaravelSevdeskApi\Constants\InvoiceStatus;
 use Exlo89\LaravelSevdeskApi\Models\SevInvoice;
 use Illuminate\Support\Collection;
 use Exlo89\LaravelSevdeskApi\Api\Utils\ApiClient;
@@ -48,7 +49,7 @@ class Invoice extends ApiClient
      */
     public function allDraft(): Collection
     {
-        return Collection::make($this->_get(Routes::INVOICE, ['status' => self::DRAFT]));
+        return Collection::make($this->_get(Routes::INVOICE, ['status' => InvoiceStatus::DRAFT]));
     }
 
     /**
@@ -58,7 +59,7 @@ class Invoice extends ApiClient
      */
     public function allOpen(): Collection
     {
-        return Collection::make($this->_get(Routes::INVOICE, ['status' => self::OPEN]));
+        return Collection::make($this->_get(Routes::INVOICE, ['status' => InvoiceStatus::OPEN]));
     }
 
     /**
@@ -68,7 +69,7 @@ class Invoice extends ApiClient
      */
     public function allPayed(): Collection
     {
-        return Collection::make($this->_get(Routes::INVOICE, ['status' => self::PAYED]));
+        return Collection::make($this->_get(Routes::INVOICE, ['status' => InvoiceStatus::PAYED]));
     }
 
     /**
@@ -109,6 +110,21 @@ class Invoice extends ApiClient
         return Collection::make($this->_get(Routes::INVOICE, ['startDate' => $timestamp]));
     }
 
+    /**
+     * Return all invoices filtered by a date range.
+     *
+     * @param int $startTimestamp
+     * @param int $endTimestamp
+     * @return Collection
+     */
+    public function allBetween(int $startTimestamp, int $endTimestamp): Collection
+    {
+        return Collection::make($this->_get(Routes::INVOICE, [
+            'startDate' => $startTimestamp,
+            'endDate'   => $endTimestamp,
+        ]));
+    }
+
     // =========================== create ====================================
 
     /**
@@ -122,8 +138,21 @@ class Invoice extends ApiClient
      */
     public function create($contactId, $items, array $parameters = []): SevInvoice
     {
-        $response = $this->_post(Routes::CREATE_INVOICE, $this->getParameters($contactId, $items, $parameters));
-        return SevInvoice::make($response['invoice']);
+        // generate a new number and header if invoiceNumber is not set
+        if (empty($parameters['invoiceNumber'])) {
+            $nextSequence = $this->getNextSequence();
+            $parameters['invoiceNumber'] = $nextSequence;
+            $parameters['header'] = 'Rechnung NR. ' . $nextSequence;
+        }
+        // create parameter array
+        $invoiceParameters = DocumentHelper::getInvoiceParameters($contactId, $items, $parameters);
+        $response = $this->_post(Routes::CREATE_INVOICE, $invoiceParameters);
+
+        // create model with relationships
+        /** @var SevInvoice $sevInvoice */
+        $sevInvoice = SevInvoice::make($response['invoice']);
+        $sevInvoice->setRelation('invoicePositions', collect($response['invoicePos']));
+        return $sevInvoice;
     }
 
 
@@ -136,21 +165,7 @@ class Invoice extends ApiClient
      */
     public function download($invoiceId)
     {
-        $response = $this->_get(Routes::INVOICE . '/' . $invoiceId . '/getPdf');
-        $file = $response['filename'];
-        file_put_contents($file, base64_decode($response['content']));
-
-        if (file_exists($file)) {
-            header('Content-Description: File Transfer');
-            header('Content-Type: application/octet-stream');
-            header('Content-Disposition: attachment; filename="' . basename($file) . '"');
-            header('Expires: 0');
-            header('Cache-Control: must-revalidate');
-            header('Pragma: public');
-            header('Content-Length: ' . filesize($file));
-            readfile($file);
-            exit();
-        }
+        $this->getPdf(Routes::INVOICE . '/' . $invoiceId . '/getPdf');
     }
 
     /**
@@ -165,134 +180,5 @@ class Invoice extends ApiClient
             'subject' => $subject,
             'text'    => $text,
         ]);
-    }
-
-    // ========================= helper ==========================
-
-    /**
-     * Validate and return config values.
-     *
-     * @return array
-     * @throws Exception
-     */
-    private function getConfigs(): array
-    {
-        $values = [];
-        $values['taxRate'] = config('sevdesk-api.tax_rate');
-        if (empty($values['taxRate'])) {
-            throw new Exception('Configuration parameter not found: tax_rate');
-        }
-
-        $values['taxText'] = config('sevdesk-api.tax_text');
-        if (empty($values['taxText'])) {
-            throw new Exception('Configuration parameter not found: tax_text');
-        }
-
-        $values['taxType'] = config('sevdesk-api.tax_type');
-        if (empty($values['taxType'])) {
-            throw new Exception('Configuration parameter not found: tax_type');
-        }
-
-        $values['invoiceType'] = config('sevdesk-api.invoice_type');
-        if (empty($values['invoiceType'])) {
-            throw new Exception('Configuration parameter not found: invoice_type');
-        }
-
-        $values['currency'] = config('sevdesk-api.currency');
-        if (empty($values['currency'])) {
-            throw new Exception('Configuration parameter not found: currency');
-        }
-
-        $values['sevUserId'] = config('sevdesk-api.sev_user_id');
-        if (empty($values['sevUserId'])) {
-            throw new Exception('Configuration parameter not found: sev_user_id');
-        }
-        return $values;
-    }
-
-    /**
-     * Format items
-     *
-     * @param $items
-     * @param $configs
-     * @return array
-     * @throws Exception
-     */
-    private function getInvoiceItems($items, $configs): array
-    {
-        $invoiceItems = [];
-        if (empty($items)) {
-            throw new Exception('No invoice items found');
-        }
-        foreach ($items as $item) {
-            if (array_key_exists('name', $item) && array_key_exists('price', $item)) {
-                $invoiceItems[] = [
-                    'objectName'     => 'InvoicePos',
-                    'mapAll'         => 'true',
-                    'quantity'       => $item['quantity'] ?? 1,
-                    'price'          => $item['price'],
-                    'name'           => $item['name'],
-                    'positionNumber' => $item['positionNumber'] ?? null,
-                    'text'           => $item['text'] ?? '',
-                    'discount'       => $item['discount'] ?? null,
-                    'taxRate'        => $configs['taxRate'],
-                    'unity'          => [
-                        'id'         => 1,
-                        'objectName' => 'Unity',
-                    ],
-                    'priceGross'     => $item['priceGross'] ?? null,
-                    'priceTax'       => $item['priceTax'] ?? null
-
-                ];
-            }
-        }
-        return $invoiceItems;
-    }
-
-    /**
-     * @param $contactId
-     * @param $items
-     * @param $parameters
-     * @return array
-     * @throws Exception
-     */
-    private function getParameters($contactId, $items, $parameters): array
-    {
-        // validate config values
-        $configs = $this->getConfigs();
-        // fetch and format next invoice number
-        $nextSequence = $this->getNextSequence();
-        $requiredParameters = [
-            'invoice'        => [
-                'objectName'     => 'Invoice',
-                'contact'        => [
-                    'id'         => $contactId,
-                    'objectName' => 'Contact'
-                ],
-                'header'         => 'Rechnung NR. ' . $nextSequence, //TODO (Martin): find better solution to generate header
-                'invoiceNumber'  => $nextSequence,
-                'invoiceDate'    => date('Y-m-d H:i:s'),
-                'discount'       => 0,
-                'addressCountry' => [
-                    'id'         => $parameters['country'] ?? Country::GERMANY,
-                    'objectName' => 'StaticCountry'
-                ],
-                'status'         => $parameters['status'] ?? self::DRAFT,
-                'contactPerson'  => [
-                    'id'         => $configs['sevUserId'],
-                    'objectName' => 'SevUser'
-                ],
-                'taxRate'        => $configs['taxRate'],
-                'taxText'        => $configs['taxText'],
-                'taxType'        => $configs['taxType'],
-                'invoiceType'    => $configs['invoiceType'],
-                'currency'       => $configs['currency'],
-                'mapAll'         => 'true'
-            ],
-            'takeDefaultAddress' => 'true',
-            'invoicePosSave' => $this->getInvoiceItems($items, $configs)
-        ];
-        return array_replace_recursive($requiredParameters, $parameters);
-
     }
 }

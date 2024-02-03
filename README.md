@@ -10,7 +10,7 @@ This package make a connection to the sevdesk api and let you interact with it.
 
 ## Documentation
 
-- [Official Documentation](https://exlo89.github.io/laravel-sevdesk-api).
+- [Official Package Documentation](https://exlo89.github.io/laravel-sevdesk-api).
 
 ## Installation
 

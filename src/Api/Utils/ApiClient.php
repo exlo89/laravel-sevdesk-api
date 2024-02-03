@@ -90,9 +90,28 @@ class ApiClient
     const INVOICE = 'Invoice';
     const CREDIT_NOTE = 'CreditNote';
 
-    public function getNextSequence(string $objectType = self::INVOICE)
+    protected function getNextSequence(string $objectType = self::INVOICE)
     {
         $sequence = $this->_get(Routes::SEQUENCE, ['objectType' => $objectType]);
         return str_replace('%NUMBER', $sequence['nextSequence'], $sequence['format']);
+    }
+
+    protected function getPdf(string $path)
+    {
+        $response = $this->_get($path);
+        $file = $response['filename'];
+        file_put_contents($file, base64_decode($response['content']));
+
+        if (file_exists($file)) {
+            header('Content-Description: File Transfer');
+            header('Content-Type: application/octet-stream');
+            header('Content-Disposition: attachment; filename="' . basename($file) . '"');
+            header('Expires: 0');
+            header('Cache-Control: must-revalidate');
+            header('Pragma: public');
+            header('Content-Length: ' . filesize($file));
+            readfile($file);
+            exit();
+        }
     }
 }

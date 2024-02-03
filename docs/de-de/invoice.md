@@ -56,11 +56,13 @@ $sevdeskApi->invoice()->allByContact($contactId);
 ```
 
 Um Rechnungen vor oder nach einem bestimmten Datum zu filtern rufe entweder die `allBefor()` oder die `allAfter()`
-Funktion auf mit dem jeweiligen Zeitstempel `$timestamp` als Parameter.
+Funktion auf mit dem jeweiligen Zeitstempel `$timestamp` als Parameter. Mit der `allBetween()` Funktion ist es möglich 
+nach einem bestimmten Zeitraum zu filtern.
 
 ```php
 $sevdeskApi->invoice()->allAfter($timestamp);
 $sevdeskApi->invoice()->allBefore($timestamp);
+$sevdeskApi->invoice()->allBetween($startTimestamp, $endTimestamp);
 ```
 
 ## Rechnung erstellen
