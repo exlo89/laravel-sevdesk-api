@@ -48,6 +48,12 @@ $sevdeskApi->invoice()->allOpen();
 $sevdeskApi->invoice()->allPayed();
 ```
 
+Um alle fälligen Rechnungen zu bekommen rufe die `allDue()` Funktion auf.
+
+```php
+$sevdeskApi->invoice()->allDue();
+```
+
 Um Rechnungen nach Kontakt zu filtern, rufe die `allByContact()` Funktion auf mit der Kontakt ID als `$contactId`
 Parameter.
 

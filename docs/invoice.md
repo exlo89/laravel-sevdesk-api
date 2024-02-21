@@ -47,6 +47,12 @@ $sevdeskApi->invoice()->allOpen();
 $sevdeskApi->invoice()->allPayed();
 ```
 
+To get all due invoices call the `allDue()` function.
+
+```php
+$sevdeskApi->invoice()->allDue();
+```
+
 To filter invoices by contact, call the `allByContact()` function with the contact ID as `$contactId`
 Parameters.
 

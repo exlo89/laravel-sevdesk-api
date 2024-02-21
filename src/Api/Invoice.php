@@ -22,14 +22,6 @@ use Exlo89\LaravelSevdeskApi\Api\Utils\Routes;
  */
 class Invoice extends ApiClient
 {
-    /**
-     * Invoice status
-     */
-    const DEACTIVATED_RECURRING = 50;
-    const DRAFT = 100;
-    const OPEN = 200;
-    const PAYED = 1000;
-
     // =========================== all ====================================
 
     /**
@@ -69,7 +61,7 @@ class Invoice extends ApiClient
      */
     public function allDue(): Collection
     {
-        return Collection::make($this->_get(Routes::INVOICE, ['status' => self::OPEN, 'delinquent' => true]));
+        return Collection::make($this->_get(Routes::INVOICE, ['status' => InvoiceStatus::OPEN, 'delinquent' => true]));
     }
     
     /**
