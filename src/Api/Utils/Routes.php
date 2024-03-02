@@ -20,6 +20,7 @@ class Routes
     const INVOICE = 'Invoice';
     const SEV_USER = 'SevUser';
     const CREATE_INVOICE = self::INVOICE . '/Factory/saveInvoice';
+    const CREATE_REMINDER = 'Invoice/Factory/createInvoiceReminder';
     const STATIC_COUNTRY = 'StaticCountry';
     const SEQUENCE = 'SevSequence/Factory/getByType';
 }
