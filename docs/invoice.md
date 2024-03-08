@@ -92,6 +92,15 @@ $items = [
 $sevdeskApi->invoice()->create($customerId, $items, $parameters);
 ```
 
+## Create Reminder
+
+To create an invoice use the `createReminder()` function and pass the SevDesk `invoiceId`.
+
+```php
+$sevdeskApi->invoice()->createReminder($invoiceId);
+```
+
+
 ## Download Invoice
 
 To download pdf file of the giving `$invoiceId`.
