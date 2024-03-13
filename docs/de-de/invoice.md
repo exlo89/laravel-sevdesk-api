@@ -93,6 +93,14 @@ $items = [
 $sevdeskApi->invoice()->create($customerId, $items, $parameters);
 ```
 
+## Zahlungserinnerung erstellen
+
+Um eine Zahlungserinnerung zu erstellen, verwende die Funktion `createReminder()` und übergebe die SevDesk `invoiceId`.
+
+```php
+$sevdeskApi->invoice()->createReminder($invoiceId);
+```
+
 ## Rechnung herunterladen
 
 Um eine Rechnung runterzuladen, rufe die Funktion `download()` auf mit der Rechnungs ID `$invoiceId` als Parameter.
