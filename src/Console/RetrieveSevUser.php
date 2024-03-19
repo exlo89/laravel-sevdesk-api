@@ -21,7 +21,7 @@ class RetrieveSevUser extends Command
     {
         $this->info('Check Sevdesk API Key');
         try {
-            if (env('SEVDESK_SEV_USER') !== null && env('SEVDESK_SEV_USER') !== '') {
+            if (env('SEVDESK_API_TOKEN') !== null && env('SEVDESK_API_TOKEN') !== '') {
                 $intance = SevdeskApi::make();
                 $this->info('Start user request');
                 $users = $intance->user()->all();
