@@ -2,6 +2,11 @@
 
 All notable changes to `laravel-sevdesk-api` will be documented in this file
 
+## 0.1.9 - 2024-03-13
+
+- add `createReminder()` to invoice
+- update documentation
+
 ## 0.1.8 - 2024-02-21
 
 - add `allDue()` to invoice

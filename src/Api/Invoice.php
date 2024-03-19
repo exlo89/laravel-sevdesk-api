@@ -144,7 +144,9 @@ class Invoice extends ApiClient
         if (empty($parameters['invoiceNumber'])) {
             $nextSequence = $this->getNextSequence();
             $parameters['invoiceNumber'] = $nextSequence;
-            $parameters['header'] = 'Rechnung NR. ' . $nextSequence;
+            if (empty($parameters['header'])) {
+                $parameters['header'] = 'Rechnung NR. ' . $nextSequence;
+            }
         }
         // create parameter array
         $invoiceParameters = DocumentHelper::getInvoiceParameters($contactId, $items, $parameters);
