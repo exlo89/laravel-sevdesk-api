@@ -9,8 +9,10 @@ SEVDESK_TAX_TYPE=default
 SEVDESK_CURRENCY=EUR
 SEVDESK_INVOICE_TYPE=RE
 ```
+
 These values are default values but please feel free to change this values.
 For the tax type you can choose 5 different types:
+
 - [default] - value added tax
 - [eu] - tax-free intra-community supply (European Union)
 - [noteu] - tax liability of the recipient (outside the EU, e.g. Switzerland)
@@ -20,16 +22,18 @@ For the tax type you can choose 5 different types:
 Also you can choose between 6 different invoice types:
 
 - [RE] A normal invoice which documents a simple selling process.
-- [WKR] An invoice which generates normal invoices with the same values regularly in fixed time frames (every month, year, ...).
+- [WKR] An invoice which generates normal invoices with the same values regularly in fixed time frames (every month,
+  year, ...).
 - [SR] An invoice which cancels another already created normal invoice.
 - [MA] An invoice which gets created if the end-customer failed to pay a normal invoice in a given time frame.
   Often includes some kind of reminder fee.
 - [TR] Part of a complete invoice. All part invoices together result in the complete invoice.
   Often used if the end-customer can partly pay for items or services.
-- [ER] 	The final invoice of all part invoices which completes the invoice.
+- [ER]    The final invoice of all part invoices which completes the invoice.
   After the final invoice is payed by the end-customer, the selling process is complete.
 
 For more details about invoice types click [here](https://api.sevdesk.de/#tag/Invoice/Types-and-status-of-invoices).
+
 ## Retrieve Invoice
 
 To get all invoices call the `all()` function.
@@ -60,8 +64,10 @@ Parameters.
 $sevdeskApi->invoice()->allByContact($contactId);
 ```
 
-To filter invoices before or after a certain date, call either the `allBefor()` or the `allAfter()` function with the respective timestamp `$timestamp` as a parameter.
-function with the respective timestamp `$timestamp` as a parameter. With the `allBetween()` function it is possible to filter
+To filter invoices before or after a certain date, call either the `allBefor()` or the `allAfter()` function with the
+respective timestamp `$timestamp` as a parameter.
+function with the respective timestamp `$timestamp` as a parameter. With the `allBetween()` function it is possible to
+filter
 by a specific time period.
 
 ```php
@@ -92,6 +98,35 @@ $items = [
 $sevdeskApi->invoice()->create($customerId, $items, $parameters);
 ```
 
+## Invoice Number
+
+The invoice number is a unique identifier for each invoice. You can create the invoice number manually by add it as a
+parameter.
+
+```php
+$parameters = [
+    'invoiceNumber' => '1234' 
+];
+$sevdeskApi->invoice()->create($customerId, $items, $parameters);
+```
+
+Or you can create the invoice number automatically by calling the `getSequence()` function and add this to the
+parameters.
+
+```php
+// create invoice number automatically
+$sequence = $sevdeskApi->invoice()->getSequence();
+// add invoice number to parameters
+$parameters = [
+    'invoiceNumber' => $sequence->nextSequence
+];
+// create invoice
+$sevdeskApi->invoice()->create($customerId, $items, $parameters);
+```
+
+> **_NOTE:_**  Only the sequence object is returned with the sequence number. 
+> If you want to have date formats (e.g %YYYY), you have to implement them yourself.
+
 ## Create Reminder
 
 To create an invoice use the `createReminder()` function and pass the SevDesk `invoiceId`.
@@ -99,7 +134,6 @@ To create an invoice use the `createReminder()` function and pass the SevDesk `i
 ```php
 $sevdeskApi->invoice()->createReminder($invoiceId);
 ```
-
 
 ## Download Invoice
 

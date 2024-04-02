@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-sevdesk-api` will be documented in this file
 
+## 0.1.10 - 2024-04-02
+
+- add `getSequence()` to credit note
+- add `getSequence()` to invoice
+- update documentation
+- remove automatic generated invoice number and credit note number
+- `createReminder()` return now as SevInvoice
+
 ## 0.1.9 - 2024-03-13
 
 - add `createReminder()` to invoice

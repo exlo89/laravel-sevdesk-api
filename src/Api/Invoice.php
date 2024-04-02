@@ -11,6 +11,7 @@ use Exception;
 use Exlo89\LaravelSevdeskApi\Api\Utils\DocumentHelper;
 use Exlo89\LaravelSevdeskApi\Constants\InvoiceStatus;
 use Exlo89\LaravelSevdeskApi\Models\SevInvoice;
+use Exlo89\LaravelSevdeskApi\Models\SevSequence;
 use Illuminate\Support\Collection;
 use Exlo89\LaravelSevdeskApi\Api\Utils\ApiClient;
 use Exlo89\LaravelSevdeskApi\Api\Utils\Routes;
@@ -53,7 +54,7 @@ class Invoice extends ApiClient
     {
         return Collection::make($this->_get(Routes::INVOICE, ['status' => InvoiceStatus::OPEN]));
     }
-    
+
     /**
      * Return all due invoices.
      *
@@ -63,7 +64,7 @@ class Invoice extends ApiClient
     {
         return Collection::make($this->_get(Routes::INVOICE, ['status' => InvoiceStatus::OPEN, 'delinquent' => true]));
     }
-    
+
     /**
      * Return all payed invoices.
      *
@@ -140,14 +141,6 @@ class Invoice extends ApiClient
      */
     public function create($contactId, $items, array $parameters = []): SevInvoice
     {
-        // generate a new number and header if invoiceNumber is not set
-        if (empty($parameters['invoiceNumber'])) {
-            $nextSequence = $this->getNextSequence();
-            $parameters['invoiceNumber'] = $nextSequence;
-            if (empty($parameters['header'])) {
-                $parameters['header'] = 'Rechnung NR. ' . $nextSequence;
-            }
-        }
         // create parameter array
         $invoiceParameters = DocumentHelper::getInvoiceParameters($contactId, $items, $parameters);
         $response = $this->_post(Routes::CREATE_INVOICE, $invoiceParameters);
@@ -165,20 +158,30 @@ class Invoice extends ApiClient
      * Create invoice reminder.
      *
      * @param $invoiceId
-     * @return array
-     * @throws Exception
+     * @return SevInvoice
      */
-    public function createReminder($invoiceId): array
+    public function createReminder($invoiceId): SevInvoice
     {
-        return $this->_post(Routes::CREATE_REMINDER, [
+        $response = $this->_post(Routes::CREATE_REMINDER, [
             'invoice' => [
-                'id' => $invoiceId,
+                'id'         => $invoiceId,
                 "objectName" => "Invoice"
             ]
         ]);
+        return SevInvoice::make($response);
     }
 
     // =======================================================================
+
+    /**
+     * Generate and return the next invoice sequence object.
+     *
+     * @return SevSequence
+     */
+    public function getSequence(): SevSequence
+    {
+        return $this->getNextSequence();
+    }
 
     /**
      * Returns pdf file of the giving invoice id.

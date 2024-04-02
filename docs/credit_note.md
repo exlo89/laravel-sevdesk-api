@@ -1,4 +1,5 @@
-# Credit notes
+# Credit Notes
+
 If you want to create credit notes, you need the following configurations:
 
 ```dotenv
@@ -8,9 +9,11 @@ SEVDESK_TAX_TYPE=Standard
 SEVDESK_CURRENCY=EUR
 SEVDESK_INVOICE_TYPE=RE
 ```
+
 These are all default values. You can customize the values for yourself.
 
 There are 5 different types for the tax type:
+
 - [default] - Show sales tax
 - [eu] - Tax-free intra-Community delivery (European Union)
 - [noteu] - Tax liability of the recipient (outside the EU, e.g. Switzerland)
@@ -20,9 +23,11 @@ There are 5 different types for the tax type:
 You can also choose between 6 different credit note types:
 
 - [RE] A normal credit memo that documents a simple sales transaction.
-- [WKR] A credit memo that regularly creates normal credit memos with the same values in fixed periods (monthly, annually, ...).
+- [WKR] A credit memo that regularly creates normal credit memos with the same values in fixed periods (monthly,
+  annually, ...).
 - [SR] A credit memo that cancels another normal credit memo that has already been created.
-- [MA] A credit note that is created when the end customer has not paid a normal credit note within a certain time frame.
+- [MA] A credit note that is created when the end customer has not paid a normal credit note within a certain time
+  frame.
   Often includes some kind of reminder fee.
 - [TR] Part of a complete credit note. All partial invoices together make up the total invoice.
   Often used when the end customer can pay for items or services in part.
@@ -31,7 +36,7 @@ You can also choose between 6 different credit note types:
 
 For more details click [here](https://api.sevdesk.de/#tag/Invoice/Types-and-status-of-invoices).
 
-## Credit notes queries
+## Retrieve Credit Notes
 
 To get all credit notes call the `all()` function.
 
@@ -48,15 +53,17 @@ $sevdeskApi->creditNote()->allDelivered();
 $sevdeskApi->creditNote()->allPayed();
 ```
 
-To filter credit notes before or after a certain date, call either the `allBefor()` or the `allAfter()` function with 
-the respective timestamp `$timestamp` as a parameter. function with the respective timestamp `$timestamp` as a parameter. With the `allBetween()` function it is possible to filter by a specific time period.
+To filter credit notes before or after a certain date, call either the `allBefor()` or the `allAfter()` function with
+the respective timestamp `$timestamp` as a parameter. function with the respective timestamp `$timestamp` as a
+parameter. With the `allBetween()` function it is possible to filter by a specific time period.
 
 ```php
 $sevdeskApi->creditNote()->allAfter($timestamp);
 $sevdeskApi->creditNote()->allBefore($timestamp);
 $sevdeskApi->creditNote()->allBetween($startTimestamp, $endTimestamp);
 ```
-## Create credit note
+
+## Create Credit Note
 
 To create a credit note, use the `create()` function. Add the `customerId` and an array with your
 credit note item. The `$Parameters` are optional. For more information see the
@@ -78,7 +85,36 @@ $items = [
 $sevdeskApi->creditNote()->create($customerId, $items, $parameters);
 ```
 
-## Download credit note
+## Credit Note Number
+
+The credit note number is a unique identifier for each credit note. You can create the credit note number manually by
+add it as a parameter.
+
+```php
+$parameters = [
+    'creditNoteNumber' => '1234' 
+];
+$sevdeskApi->creditNote()->create($customerId, $items, $parameters);
+```
+
+Or you can create the credit note number automatically by calling the `getSequence()` function and add this to the
+parameters.
+
+```php
+// Get the next sequence number
+$sequence = $sevdeskApi->creditNote()->getSequence();
+// Add the sequence number to the parameters
+$parameters = [
+    'creditNoteNumber' => $sequence->nextSequence
+];
+// Create the credit note
+$sevdeskApi->creditNote()->create($customerId, $items, $parameters);
+```
+
+> **_NOTE:_**  Only the sequence object is returned with the sequence number.
+> If you want to have date formats (e.g %YYYY), you have to implement them yourself.
+
+## Download Credit Note
 
 To download a credit note, call the function `download()` with the credit note ID `$creditNoteId` as parameter.
 
@@ -86,7 +122,7 @@ To download a credit note, call the function `download()` with the credit note I
 $sevdeskApi->creditNote()->download($creditNoteId);
 ```
 
-## Send credit note by e-mail
+## Send Credit Note by E-Mail
 
 To send a credit note by e-mail, call the function `sendPerMail()` with the credit note ID `$creditNoteId`.
 The parameters `$email`, `$subject` and `$text` are responsible for the e-mail processing. `$text` can also contain HTML

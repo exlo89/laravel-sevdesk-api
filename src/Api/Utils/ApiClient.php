@@ -7,6 +7,7 @@
 
 namespace Exlo89\LaravelSevdeskApi\Api\Utils;
 
+use Exlo89\LaravelSevdeskApi\Models\SevSequence;
 use Illuminate\Validation\UnauthorizedException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Exlo89\LaravelSevdeskApi\Api\Invoice;
@@ -90,12 +91,24 @@ class ApiClient
     const INVOICE = 'Invoice';
     const CREDIT_NOTE = 'CreditNote';
 
-    protected function getNextSequence(string $objectType = self::INVOICE)
+    /**
+     * Return the next sequence for the given object type.
+     *
+     * @param string $objectType
+     * @return SevSequence
+     */
+    protected function getNextSequence(string $objectType = self::INVOICE) : SevSequence
     {
         $sequence = $this->_get(Routes::SEQUENCE, ['objectType' => $objectType]);
-        return str_replace('%NUMBER', $sequence['nextSequence'], $sequence['format']);
+        return SevSequence::make($sequence);
     }
 
+
+    /**
+     * Get the pdf file from the given path.
+     *
+     * @param string $path
+     */
     protected function getPdf(string $path)
     {
         $response = $this->_get($path);

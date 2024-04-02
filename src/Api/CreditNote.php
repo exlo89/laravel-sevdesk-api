@@ -13,6 +13,7 @@ use Exlo89\LaravelSevdeskApi\Api\Utils\DocumentHelper;
 use Exlo89\LaravelSevdeskApi\Api\Utils\Routes;
 use Exlo89\LaravelSevdeskApi\Constants\CreditNoteStatus;
 use Exlo89\LaravelSevdeskApi\Models\SevCreditNote;
+use Exlo89\LaravelSevdeskApi\Models\SevSequence;
 use Illuminate\Support\Collection;
 
 /**
@@ -114,12 +115,6 @@ class CreditNote extends ApiClient
      */
     public function create($contactId, $items, array $parameters = []): SevCreditNote
     {
-        // generate a new number and header if creditNoteNumber is not set
-        if (empty($parameters['creditNoteNumber'])) {
-            $nextSequence = $this->getNextSequence(self::CREDIT_NOTE);
-            $parameters['creditNoteNumber'] = $nextSequence;
-            $parameters['header'] = 'Gutschrift NR. ' . $nextSequence;
-        }
         // create parameter array
         $creditNoteParameters = DocumentHelper::getCreditNoteParameters($contactId, $items, $parameters);
         $response = $this->_post(Routes::CREATE_CREDIT_NOTE, $creditNoteParameters);
@@ -151,6 +146,16 @@ class CreditNote extends ApiClient
     }
 
     // =======================================================================
+
+    /**
+     * Generate and return the next credit note sequence object.
+     *
+     * @return SevSequence
+     */
+    public function getSequence(): SevSequence
+    {
+        return $this->getNextSequence(self::CREDIT_NOTE);
+    }
 
     /**
      * Returns pdf file of the giving credit note id.

@@ -93,6 +93,32 @@ $items = [
 $sevdeskApi->invoice()->create($customerId, $items, $parameters);
 ```
 
+## Rechnungsnummer
+
+Die Rechnungsnummer ist eine eindeutige Kennung für jede Rechnung. Erstelle die Rechnungsnummer manuell, indem du sie als
+Parameter hinzufügst.
+
+```php
+$parameters = [
+    'invoiceNumber' => '1234' 
+];
+$sevdeskApi>invoice()->create($customerId, $items, $parameters);
+```
+
+Oder lass die Rechnungsnummer automatisch erstellen, indem du die Funktion `getSequence()` aufrufst und diese zu den
+Parameter hinzufügen.
+
+```php
+// erstelle die Rechnungsnummer automatisch
+$sequence = $sevdeskApi->creditNote()->getSequence();
+// füge die Rechnungsnummer zu den Parametern hinzu
+$parameters = [
+    'invoiceNumber' => $sequence->nextSequence
+];
+// erstelle die Rechnung
+$sevdeskApi>invoice()->create($customerId, $items, $parameters);
+```
+
 ## Zahlungserinnerung erstellen
 
 Um eine Zahlungserinnerung zu erstellen, verwende die Funktion `createReminder()` und übergebe die SevDesk `invoiceId`.
