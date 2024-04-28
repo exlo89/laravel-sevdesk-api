@@ -61,7 +61,15 @@ Parameter.
 $sevdeskApi->invoice()->allByContact($contactId);
 ```
 
-Um Rechnungen vor oder nach einem bestimmten Datum zu filtern rufe entweder die `allBefor()` oder die `allAfter()`
+Um Rechnungen nach Zahlungsart zu filtern, rufe die `allByPaymentMethod()` Funktion auf mit der Zahlungsart ID als `$paymentMethodId`
+Parameter.
+Zusätzlich können alle anderen parameter wie embed über ein Array übergeben werden.
+
+```php
+$sevdeskApi->invoice()->allByPaymentMethod($paymentMethodId,['embed' => 'contact']);
+```
+
+Um Rechnungen vor oder nach einem bestimmten Datum zu filtern rufe entweder die `allBefore()` oder die `allAfter()`
 Funktion auf mit dem jeweiligen Zeitstempel `$timestamp` als Parameter. Mit der `allBetween()` Funktion ist es möglich 
 nach einem bestimmten Zeitraum zu filtern.
 

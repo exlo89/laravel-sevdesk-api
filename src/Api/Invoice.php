@@ -128,6 +128,27 @@ class Invoice extends ApiClient
         ]));
     }
 
+    /**
+     * Return all invoices filtered by a payment method id and optionally by status.
+     *
+     * @param int $paymentMethodId The payment method ID to filter invoices.
+     * @param array $additionalFilters Optional additional filters to apply.
+     * @return Collection The filtered collection of invoices.
+     */
+    public function allByPaymentMethod(int $paymentMethodId, array $additionalFilters = []): Collection
+    {
+        // Start with mandatory filter
+        $filters = [
+            'paymentMethod[id]' => $paymentMethodId,
+            'paymentMethod[objectName]' => 'PaymentMethod',
+        ];
+
+        // Merge additional filters into the base filters if provided
+        $filters = array_merge($filters, $additionalFilters);
+
+        return Collection::make($this->_get(Routes::INVOICE, $filters));
+    }
+
     // =========================== create ====================================
 
     /**

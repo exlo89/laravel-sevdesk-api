@@ -64,7 +64,14 @@ Parameters.
 $sevdeskApi->invoice()->allByContact($contactId);
 ```
 
-To filter invoices before or after a certain date, call either the `allBefor()` or the `allAfter()` function with the
+To filter invoices by payment method, call `allByPaymentMethod()` function with payment method ID as `$paymentMethodId`.
+Additionally all other query parameters can be passed via an array.
+
+```php
+$sevdeskApi->invoice()->allByPaymentMethod($paymentMethodId,['embed' => 'contact']);
+```
+
+To filter invoices before or after a certain date, call either the `allBefore()` or the `allAfter()` function with the
 respective timestamp `$timestamp` as a parameter.
 function with the respective timestamp `$timestamp` as a parameter. With the `allBetween()` function it is possible to
 filter
