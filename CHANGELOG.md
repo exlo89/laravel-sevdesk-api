@@ -2,6 +2,11 @@
 
 All notable changes to `laravel-sevdesk-api` will be documented in this file
 
+## 0.1.11 - 2024-05-17
+
+- add `allByPaymentMethod()` to invoice
+- update documentation
+
 ## 0.1.10 - 2024-04-02
 
 - add `getSequence()` to credit note

@@ -24,6 +24,7 @@ class ContactAddress extends ApiClient
     /**
      * Return all contact addresses.
      *
+     * @param int $limit
      * @return Collection
      */
     public function all(int $limit = 1000): Collection
