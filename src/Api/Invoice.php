@@ -146,7 +146,11 @@ class Invoice extends ApiClient
         // Merge additional filters into the base filters if provided
         $filters = array_merge($filters, $additionalFilters);
 
-        return Collection::make($this->_get(Routes::INVOICE, $filters));
+        // Build the query string
+        $queryString = http_build_query($filters);
+
+        // Call the _get method with the constructed query string
+        return Collection::make($this->_get(Routes::INVOICE . '?' . $queryString));
     }
 
     // =========================== create ====================================
