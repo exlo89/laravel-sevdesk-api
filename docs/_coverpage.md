@@ -7,7 +7,9 @@
 
 [![](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/martin-appelmann/)
 
-Need help? Contact me [here](https://martin-appelmann.de "{rel='dofollow'}").
+<p style="color: #333333;">
+    Need help? Contact me <a href="https://martin-appelmann.de" rel="dofollow">here</a>.
+</p>
 
 
 <p class="buttons">

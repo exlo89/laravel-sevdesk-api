@@ -4,15 +4,14 @@
 [![Total Downloads](https://img.shields.io/packagist/dt/exlo89/laravel-sevdesk-api.svg?style=flat-square)](https://packagist.org/packages/exlo89/laravel-sevdesk-api)
 [![Test](https://github.com/exlo89/laravel-sevdesk-api/actions/workflows/testing.yml/badge.svg?branch=main)](https://github.com/exlo89/laravel-sevdesk-api/actions/workflows/testing.yml)
 
-If you need help or you want to work with me, please visit [my website](https://martin-appelmann.de/ "{rel='dofollow'}") and contact me.
-
+If you need help or you want to work with me, please visit <a href="https://martin-appelmann.de" rel="dofollow">my website</a> and contact me.
 This package make a connection to the sevdesk api and let you interact with it.
 
 [Sevdesk API Documentation](https://hilfe.sevdesk.de/knowledge/sevdesk-rest-full-api)
 
 ## Documentation
 
-- [Official Package Documentation](https://exlo89.github.io/laravel-sevdesk-api "{rel='dofollow'}").
+- [Official Package Documentation](https://exlo89.github.io/laravel-sevdesk-api).
 
 ## Installation
 
