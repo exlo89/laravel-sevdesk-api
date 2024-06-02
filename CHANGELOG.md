@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-sevdesk-api` will be documented in this file
 
+## 0.1.13 - 2024-06-02
+
+- bug fixing in `allByPaymentMethod()`
+
 ## 0.1.12 - 2024-05-30
 
 - bug fixing in `allByPaymentMethod()`
