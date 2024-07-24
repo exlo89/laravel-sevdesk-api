@@ -112,19 +112,18 @@ class ApiClient
     protected function getPdf(string $path)
     {
         $response = $this->_get($path);
-        $file = $response['filename'];
-        file_put_contents($file, base64_decode($response['content']));
+        $content = base64_decode($response['content']);
+        $filename = $response['filename'];
 
-        if (file_exists($file)) {
-            header('Content-Description: File Transfer');
-            header('Content-Type: application/octet-stream');
-            header('Content-Disposition: attachment; filename="' . basename($file) . '"');
-            header('Expires: 0');
-            header('Cache-Control: must-revalidate');
-            header('Pragma: public');
-            header('Content-Length: ' . filesize($file));
-            readfile($file);
-            exit();
-        }
+        header('Content-Description: File Transfer');
+        header('Content-Type: application/pdf');
+        header('Content-Disposition: attachment; filename="' . basename($filename) . '"');
+        header('Expires: 0');
+        header('Cache-Control: must-revalidate');
+        header('Pragma: public');
+        header('Content-Length: ' . strlen($content));
+
+        echo $content;
+        exit();
     }
 }
