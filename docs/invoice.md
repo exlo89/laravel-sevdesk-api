@@ -155,5 +155,5 @@ $sevdeskApi->invoice()->download($invoiceId);
 To send invoice to giving `$email`. Use `$subject` and `$text` to edit the mail. `$text` can contain html.
 
 ```php
-$sevdeskApi->invoice()->sendPerMail($invoiceId, $email, $subject, $text);
+$sevdeskApi->invoice()->sendByMail($invoiceId, $email, $subject, $text);
 ```
