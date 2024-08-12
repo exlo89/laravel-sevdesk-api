@@ -8,7 +8,7 @@
 namespace Exlo89\LaravelSevdeskApi\Constants;
 
 /**
- * Sevdesk Credit Note Status
+ * Sevdesk Invoice Status
  *
  * @see https://api.sevdesk.de/#tag/Invoice/Types-and-status-of-invoices
  */

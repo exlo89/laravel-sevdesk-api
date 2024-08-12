@@ -11,6 +11,7 @@ use Exception;
 use Exlo89\LaravelSevdeskApi\Constants\Country;
 use Exlo89\LaravelSevdeskApi\Constants\CreditNoteStatus;
 use Exlo89\LaravelSevdeskApi\Constants\InvoiceStatus;
+use Exlo89\LaravelSevdeskApi\Constants\OrderStatus;
 
 class DocumentHelper
 {
@@ -25,7 +26,8 @@ class DocumentHelper
         $values = [];
         $values['taxRate'] = config('sevdesk-api.tax_rate');
         $values['taxText'] = config('sevdesk-api.tax_text');
-        $values['taxType'] = config('sevdesk-api.tax_type');
+        $values['taxType'] = config('sevdesk-api.tax_type'); // only in version 1.0
+        $values['taxRule'] = config('sevdesk-api.tax_rule'); // only in version 2.0
         $values['invoiceType'] = config('sevdesk-api.invoice_type');
         $values['currency'] = config('sevdesk-api.currency');
         $values['sevUserId'] = config('sevdesk-api.sev_user_id');
@@ -49,6 +51,9 @@ class DocumentHelper
         }
         if (empty($configs['taxType'])) {
             throw new Exception('Configuration parameter not found: tax_type');
+        }
+        if (empty($configs['taxRule'])) {
+            throw new Exception('Configuration parameter not found: tax_rule');
         }
         if (empty($configs['invoiceType'])) {
             throw new Exception('Configuration parameter not found: invoice_type');
@@ -80,27 +85,29 @@ class DocumentHelper
         foreach ($items as $item) {
             if (array_key_exists('name', $item) && array_key_exists('price', $item)) {
                 $documentItems[] = [
-                    'objectName'     => ucfirst($objectName) . 'Pos',
-                    'mapAll'         => 'true',
-                    'part'           => empty($item['partId']) ? null : [
+                    'objectName' => ucfirst($objectName) . 'Pos',
+                    'mapAll'     => 'true',
+                    'part' => empty($item['partId']) ? null : [
                         'id'         => $item['partId'],
                         'objectName' => 'Part'
                     ],
-                    'quantity'       => $item['quantity'] ?? 1,
-                    'price'          => $item['price'],
-                    'priceTax'       => $item['priceTax'] ?? null,
-                    'priceGross'     => $item['priceGross'] ?? null,
-                    'name'           => $item['name'],
-                    'unity'          => [
+                    'quantity'   => $item['quantity'] ?? 1,
+                    'price'      => $item['price'],
+                    'priceTax'   => $item['priceTax'] ?? null,
+                    'priceGross' => $item['priceGross'] ?? null,
+                    'name'       => $item['name'],
+                    'unity'      => [
                         'id'         => $item['unityId'] ?? 1,
                         'objectName' => 'Unity',
                     ],
-                    'positionNumber' => $item['positionNumber'] ?? null,
-                    'text'           => $item['text'] ?? '',
-                    'discount'       => $item['discount'] ?? null,
-                    'optional'       => $item['optional'] ?? null,
-                    'taxRate'        => $item['taxRate'] ?? $configs['taxRate'],
+                    'text'       => $item['text'] ?? '',
+                    'discount'   => $item['discount'] ?? null,
+                    'optional'   => $item['optional'] ?? null,
+                    'taxRate'    => $item['taxRate'] ?? $configs['taxRate'],
                 ];
+                if (array_key_exists('positionNumber', $item)) {
+                    $documentItems[count($documentItems) - 1]['positionNumber'] = $item['positionNumber'];
+                }
             }
         }
         return $documentItems;
@@ -122,7 +129,7 @@ class DocumentHelper
         $configs = $configs ?? self::getDefaultConfigs();
         self::validateConfigs($configs);
         return [
-            'creditNote'        => [
+            'creditNote'         => [
                 'objectName'           => 'CreditNote',
                 'mapAll'               => 'true',
                 'creditNoteNumber'     => $parameters['creditNoteNumber'] ?? null,
@@ -149,12 +156,19 @@ class DocumentHelper
                     'objectName' => 'SevUser'
                 ],
                 'taxRate'              => $parameters['taxRate'] ?? $configs['taxRate'],
+                // ==== only in version 1.0 ====
+                'taxType'              => $parameters['taxType'] ?? $configs['taxType'],
                 'taxSet'               => empty($parameters['taxSetId']) ? null : [
                     'id'         => $parameters['taxSetId'],
                     'objectName' => 'TaxSet'
                 ],
+                // ==== only in version 2.0 ====
+                'taxRule'              => [
+                    'id'         => $configs['taxRule'],
+                    'objectName' => 'TaxRule',
+                ],
+                // =============================
                 'taxText'              => $parameters['taxText'] ?? $configs['taxText'],
-                'taxType'              => $parameters['taxType'] ?? $configs['taxType'],
                 'sendDate'             => $parameters['sendDate'] ?? date('Y-m-d H:i:s'),
                 'address'              => $parameters['address'] ?? null,
                 'bookingCategory'      => $parameters['bookingCategory'] ?? null,
@@ -164,7 +178,7 @@ class DocumentHelper
                 'sendType'             => $parameters['sendType'] ?? null,
             ],
             'takeDefaultAddress' => 'true',
-            'creditNotePosSave' => self::getDocumentItems($items, $configs, 'creditNote'),
+            'creditNotePosSave'  => self::getDocumentItems($items, $configs, 'creditNote'),
         ];
     }
 
@@ -184,7 +198,7 @@ class DocumentHelper
         $configs = $configs ?? self::getDefaultConfigs();
         self::validateConfigs($configs);
         return [
-            'invoice'        => [
+            'invoice'            => [
                 'objectName'           => 'Invoice',
                 'mapAll'               => 'true',
                 'invoiceNumber'        => $parameters['invoiceNumber'] ?? null,
@@ -214,11 +228,18 @@ class DocumentHelper
                 'smallSettlement'      => $parameters['smallSettlement'] ?? null,
                 'taxRate'              => $parameters['taxRate'] ?? $configs['taxRate'],
                 'taxText'              => $parameters['taxText'] ?? $configs['taxText'],
+                // ==== only in version 1.0 ====
                 'taxType'              => $parameters['taxType'] ?? $configs['taxType'],
                 'taxSet'               => empty($parameters['taxSetId']) ? null : [
                     'id'         => $parameters['taxSetId'],
                     'objectName' => 'TaxSet'
                 ],
+                // ==== only in version 2.0 ====
+                'taxRule'              => [
+                    'id'         => $configs['taxRule'],
+                    'objectName' => 'TaxRule',
+                ],
+                // =============================
                 'paymentMethod'        => empty($parameters['paymentMethodId']) ? null : [
                     'id'         => $parameters['paymentMethodId'],
                     'objectName' => 'PaymentMethod',
@@ -235,7 +256,78 @@ class DocumentHelper
                 'customerInternalNote' => $parameters['customerInternalNote'] ?? null,
             ],
             'takeDefaultAddress' => 'true',
-            'invoicePosSave' => self::getDocumentItems($items, $configs, 'invoice'),
+            'invoicePosSave'     => self::getDocumentItems($items, $configs, 'invoice'),
+        ];
+    }
+
+    /**
+     * Create order parameter array.
+     *
+     * @param string $contactId
+     * @param array $items
+     * @param array $parameters
+     * @param array|null $configs
+     * @return array
+     * @throws Exception
+     */
+    static function getOrderParameters(string $contactId, array $items, array $parameters, array $configs = null): array
+    {
+        // set and validate config values
+        $configs = $configs ?? self::getDefaultConfigs();
+        self::validateConfigs($configs);
+        return [
+            'order'        => [
+                'objectName'           => 'Order',
+                'mapAll'               => 'true',
+                'orderNumber'          => $parameters['orderNumber'] ?? null,
+                'contact'              => [
+                    'id'         => $contactId,
+                    'objectName' => 'Contact'
+                ],
+                'orderDate'            => $parameters['orderDate'] ?? date('Y-m-d H:i:s'),
+                'status'               => $parameters['status'] ?? OrderStatus::DELIVERED,
+                'header'               => $parameters['header'] ?? null,
+                'headText'             => $parameters['headText'] ?? null,
+                'footText'             => $parameters['footText'] ?? null,
+                'addressCountry'       => [
+                    'id'         => $parameters['country'] ?? Country::GERMANY,
+                    'objectName' => 'StaticCountry'
+                ],
+                'deliveryTerms'        => $parameters['deliveryTerms'] ?? null,
+                'paymentTerms'         => $parameters['paymentTerms'] ?? null,
+                'version'              => $parameters['version'] ?? 1,
+                'smallSettlement'      => $parameters['smallSettlement'] ?? null,
+                'contactPerson'        => [
+                    'id'         => $configs['sevUserId'],
+                    'objectName' => 'SevUser'
+                ],
+                // ==== only in version 1.0 ====
+                'taxType'              => $parameters['taxType'] ?? $configs['taxType'],
+                'taxSet'               => empty($parameters['taxSetId']) ? null : [
+                    'id'         => $parameters['taxSetId'],
+                    'objectName' => 'TaxSet'
+                ],
+                // ==== only in version 2.0 ====
+                'taxRule'              => [
+                    'id'         => $configs['taxRule'],
+                    'objectName' => 'TaxRule',
+                ],
+                // =============================
+                'taxRate'              => $parameters['taxRate'] ?? $configs['taxRate'],
+                'taxText'              => $parameters['taxText'] ?? $configs['taxText'],
+                'orderType'            => $parameters['orderType'],
+                'sendDate'             => $parameters['sendDate'] ?? date('Y-m-d H:i:s'),
+                'address'              => $parameters['address'] ?? null,
+                'currency'             => $parameters['currency'] ?? $configs['currency'],
+                'customerInternalNote' => $parameters['customerInternalNote'] ?? null,
+                'showNet'              => $parameters['showNet'] ?? null,
+                'sendType'             => $parameters['sendType'] ?? null,
+                'origin'               => empty($parameters['originId']) || empty($parameters['originModel']) ? null : [
+                    'id'         => $parameters['originId'],
+                    'objectName' => $parameters['originModel'],
+                ],
+            ],
+            'orderPosSave' => self::getDocumentItems($items, $configs, 'order'),
         ];
     }
 }
