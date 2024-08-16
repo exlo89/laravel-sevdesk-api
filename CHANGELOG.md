@@ -2,6 +2,12 @@
 
 All notable changes to `laravel-sevdesk-api` will be documented in this file
 
+## 1.0.0 - 2024-08-16
+- add order resource to package
+- fix bug in invoice download
+- add new command to retrieve sevdesk version
+- update documentation
+
 ## 0.1.13 - 2024-06-02
 
 - update readme and docs
