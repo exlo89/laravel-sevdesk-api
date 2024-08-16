@@ -33,7 +33,7 @@ Für mehr Details klicke [hier](https://api.sevdesk.de/#tag/Invoice/Types-and-st
 
 ## Rechnungen Abfragen
 
-Um alle Rechnungen zu bekommen rufe die `all()` Funktion auf.
+Um alle Rechnungen zu bekommen, rufe die `all()` Funktion auf.
 
 ```php
 $sevdeskApi->invoice()->all();
@@ -150,5 +150,5 @@ Die Parameter `$email`, `$subject` und `$text` sind für die E-Mail Bearbeitung 
 enthalten.
 
 ```php
-$sevdeskApi->invoice()->sendPerMail($invoiceId, $email, $subject, $text);
+$sevdeskApi->invoice()->sendByMail($invoiceId, $email, $subject, $text);
 ```

@@ -87,7 +87,7 @@ class Order extends ApiClient
      * @param string|null $orderType
      * @return Collection
      */
-    public function allPartialAccepted(?string $orderType = null): Collection
+    public function allPartialCalculated(?string $orderType = null): Collection
     {
         return Collection::make($this->_get(Routes::ORDER, $this->getParam($orderType, OrderStatus::PARTIAL_CALCULATED)));
     }

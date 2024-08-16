@@ -1,7 +1,8 @@
 - [Getting Started](gettingstarted)
-
+- [Migration to Version 2.0](migration)
 - API 
   - [Invoice](invoice.md)
+  - [Order](order.md)
   - [Credit Note](credit_note.md)
   - [Contact](contact.md)
   - [Accounting Contact](accounting_contact.md)

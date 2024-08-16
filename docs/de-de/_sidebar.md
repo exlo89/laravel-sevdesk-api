@@ -1,7 +1,8 @@
 - [Erste Schritte](de-de/gettingstarted.md)
-
+- [Migration zu Version 2.0](de-de/migration.md)
 - API 
   - [Rechnungen](de-de/invoice.md)
+  - [Angebote](de-de/order.md)
   - [Gutschriften](de-de/credit_note.md)
   - [Kontakte](de-de/contact.md)
   - [Buchhaltungskontakte](de-de/accounting_contact.md)
