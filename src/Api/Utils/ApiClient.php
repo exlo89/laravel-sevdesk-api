@@ -41,15 +41,25 @@ class ApiClient
     public function execute($httpMethod, $url, array $parameters = [])
     {
         try {
-            $parameters['token'] = $this->getToken();
-            $response = $this->getClient()->{$httpMethod}('api/v1/' . $url, ['json' => $parameters]);
+            $headers = [
+                'Authorization' => $this->getToken(),
+                'Accept' => 'application/json'
+            ];
+
+            $response = $this->getClient()->{$httpMethod}('api/v1/' . $url, [
+                'headers' => $headers,
+                'json' => $parameters
+            ]);
             $responseBody = json_decode((string)$response->getBody(), true);
             return $responseBody['objects'];
-        } catch (BadResponseException $exception) {
+        }
+        catch (BadResponseException $exception) {
             $response = json_decode((string)$exception->getResponse()->getBody(), true);
             if (array_key_exists('error', $response)) {
-                if ($response['error']['code'] == 151) throw new ModelNotFoundException($response['error']['message']);
-                if ($response['error']['message'] != null) throw new \Exception($response['error']['message']);;
+                if ($response['error']['code'] == 151) {
+                    throw new ModelNotFoundException($response['error']['message']);
+                }
+                if ($response['error']['message'] != null) throw new \Exception($response['error']['message']);
             }
             if (array_key_exists('status', $response)) {
                 if ($response['status'] == 401) throw new UnauthorizedException($response['message']);
