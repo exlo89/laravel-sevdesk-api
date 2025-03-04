@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-sevdesk-api` will be documented in this file
 
+## 1.0.1 - 2025-03-04
+- changed authorization from parameter to header ([more infos](https://tech.sevdesk.com/api_news/posts/2025_02_06-authentication-method-removed/))
+- fix code style
+
 ## 1.0.0 - 2024-08-16
 - add order resource to package
 - fix bug in invoice download
