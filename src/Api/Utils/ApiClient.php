@@ -43,17 +43,16 @@ class ApiClient
         try {
             $headers = [
                 'Authorization' => $this->getToken(),
-                'Accept' => 'application/json'
+                'Accept'        => 'application/json'
             ];
 
             $response = $this->getClient()->{$httpMethod}('api/v1/' . $url, [
                 'headers' => $headers,
-                'json' => $parameters
+                'json'    => $parameters
             ]);
             $responseBody = json_decode((string)$response->getBody(), true);
             return $responseBody['objects'];
-        }
-        catch (BadResponseException $exception) {
+        } catch (BadResponseException $exception) {
             $response = json_decode((string)$exception->getResponse()->getBody(), true);
             if (array_key_exists('error', $response)) {
                 if ($response['error']['code'] == 151) {
@@ -107,7 +106,7 @@ class ApiClient
      * @param string $objectType
      * @return SevSequence
      */
-    protected function getNextSequence(string $objectType = self::INVOICE) : SevSequence
+    protected function getNextSequence(string $objectType = self::INVOICE): SevSequence
     {
         $sequence = $this->_get(Routes::SEQUENCE, ['objectType' => $objectType]);
         return SevSequence::make($sequence);

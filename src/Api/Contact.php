@@ -69,11 +69,11 @@ class Contact extends ApiClient
     {
         return Collection::make($this->_get(Routes::CONTACT, [
             'category' => [
-                "id" => self::SUPPLIER,
+                "id"         => self::SUPPLIER,
                 "objectName" => "Category"
             ],
-            'depth' => $depth,
-            'limit' => $limit,
+            'depth'    => $depth,
+            'limit'    => $limit,
         ]));
     }
 
@@ -88,11 +88,11 @@ class Contact extends ApiClient
     {
         return Collection::make($this->_get(Routes::CONTACT, [
             'category' => [
-                "id" => self::CUSTOMER,
+                "id"         => self::CUSTOMER,
                 "objectName" => "Category"
             ],
-            'depth' => $depth,
-            'limit' => $limit,
+            'depth'    => $depth,
+            'limit'    => $limit,
         ]));
     }
 
@@ -107,11 +107,11 @@ class Contact extends ApiClient
     {
         return Collection::make($this->_get(Routes::CONTACT, [
             'category' => [
-                "id" => self::PARTNER,
+                "id"         => self::PARTNER,
                 "objectName" => "Category"
             ],
-            'depth' => $depth,
-            'limit' => $limit,
+            'depth'    => $depth,
+            'limit'    => $limit,
         ]));
     }
 
@@ -126,11 +126,11 @@ class Contact extends ApiClient
     {
         return Collection::make($this->_get(Routes::CONTACT, [
             'category' => [
-                "id" => self::PROSPECT_CUSTOMER,
+                "id"         => self::PROSPECT_CUSTOMER,
                 "objectName" => "Category"
             ],
-            'depth' => $depth,
-            'limit' => $limit,
+            'depth'    => $depth,
+            'limit'    => $limit,
         ]));
     }
 
@@ -148,11 +148,11 @@ class Contact extends ApiClient
             SevContact::make(
                 $this->_get(Routes::CONTACT, [
                     'category' => [
-                        "id" => $contactCategory,
+                        "id"         => $contactCategory,
                         "objectName" => "Category"
                     ],
-                    'depth' => $depth,
-                    'limit' => $limit,
+                    'depth'    => $depth,
+                    'limit'    => $limit,
                 ])
             )
         );
@@ -178,7 +178,7 @@ class Contact extends ApiClient
      */
     public function getNextCustomerNumber(): int
     {
-        return $this->_get(Routes::CONTACT.'/Factory/getNextCustomerNumber');
+        return $this->_get(Routes::CONTACT . '/Factory/getNextCustomerNumber');
     }
 
     // ========================== create ==================================
@@ -193,7 +193,7 @@ class Contact extends ApiClient
     private function create(int $contactType, array $parameters = []): array
     {
         $parameters['category'] = [
-            "id" => $contactType,
+            "id"         => $contactType,
             "objectName" => "Category"
         ];
         return $this->_post(Routes::CONTACT, $parameters);

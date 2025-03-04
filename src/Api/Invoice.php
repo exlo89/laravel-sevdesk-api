@@ -139,7 +139,7 @@ class Invoice extends ApiClient
     {
         // Start with mandatory filter
         $filters = [
-            'paymentMethod[id]' => $paymentMethodId,
+            'paymentMethod[id]'         => $paymentMethodId,
             'paymentMethod[objectName]' => 'PaymentMethod',
         ];
 

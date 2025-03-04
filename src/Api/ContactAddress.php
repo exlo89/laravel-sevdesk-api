@@ -56,12 +56,12 @@ class ContactAddress extends ApiClient
     public function create(int $contactId, array $parameters = []): SevContactAddress
     {
         $parameters['contact'] = [
-            "id" => $contactId,
+            "id"         => $contactId,
             "objectName" => "Contact",
         ];
         // on null add default value to country
         $parameters['country'] = $parameters['country'] ?? [
-            "id" => Country::GERMANY,
+            "id"         => Country::GERMANY,
             "objectName" => "StaticCountry",
         ];
         return SevContactAddress::make($this->_post(Routes::CONTACT_ADDRESS, $parameters));

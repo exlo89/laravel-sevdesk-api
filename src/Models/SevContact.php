@@ -42,14 +42,14 @@ class SevContact extends Model
     ];
 
     protected $casts = [
-        'defaultCashbackTime' => 'integer',
-        'defaultCashbackPercent' => 'double',
-        'excemptVat' => 'boolean',
-        'taxSet' => 'integer',
-        'defaultTimeToPay' => 'integer',
-        'bankNumber' => 'integer',
-        'birthday' => 'timestamp',
-        'defaultDiscountAmount' => 'double',
+        'defaultCashbackTime'       => 'integer',
+        'defaultCashbackPercent'    => 'double',
+        'excemptVat'                => 'boolean',
+        'taxSet'                    => 'integer',
+        'defaultTimeToPay'          => 'integer',
+        'bankNumber'                => 'integer',
+        'birthday'                  => 'timestamp',
+        'defaultDiscountAmount'     => 'double',
         'defaultDiscountPercentage' => 'boolean'
     ];
 

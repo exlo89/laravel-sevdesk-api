@@ -87,7 +87,7 @@ class DocumentHelper
                 $documentItems[] = [
                     'objectName' => ucfirst($objectName) . 'Pos',
                     'mapAll'     => 'true',
-                    'part' => empty($item['partId']) ? null : [
+                    'part'       => empty($item['partId']) ? null : [
                         'id'         => $item['partId'],
                         'objectName' => 'Part'
                     ],

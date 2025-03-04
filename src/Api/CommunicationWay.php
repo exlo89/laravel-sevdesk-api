@@ -60,7 +60,7 @@ class CommunicationWay extends ApiClient
     {
         return Collection::make($this->_get(Routes::COMMUNICATION_WAY, [
             'contact' => [
-                'id' => $contactId,
+                'id'         => $contactId,
                 'objectName' => 'Contact',
             ]
         ]));
@@ -79,14 +79,14 @@ class CommunicationWay extends ApiClient
     private function create(int $contactId, string $communicationType, string $value): array
     {
         return $this->_post(Routes::COMMUNICATION_WAY, [
-            'type' => $communicationType,
+            'type'    => $communicationType,
             'contact' => [
-                "id" => $contactId,
+                "id"         => $contactId,
                 "objectName" => "Contact",
             ],
-            'value' => $value,
-            'key' => [
-                "id" => self::DEFAULT,
+            'value'   => $value,
+            'key'     => [
+                "id"         => self::DEFAULT,
                 "objectName" => "CommunicationWayKey"
             ],
         ]);

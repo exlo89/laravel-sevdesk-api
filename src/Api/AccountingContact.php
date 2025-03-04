@@ -58,7 +58,7 @@ class AccountingContact extends ApiClient
     public function getByContact($contactId): SevContact
     {
         $parameters['contact'] = [
-            "id" => $contactId,
+            "id"         => $contactId,
             "objectName" => "Contact",
         ];
         return SevContact::make($this->_get(Routes::CONTACT, $parameters)[0]);
@@ -77,7 +77,7 @@ class AccountingContact extends ApiClient
         return SevAccountingContact::make(
             $this->_post(Routes::ACCOUNTING_CONTACT, [
                 'contact' => [
-                    "id" => $contactId,
+                    "id"         => $contactId,
                     "objectName" => "Contact"
                 ]
             ])
