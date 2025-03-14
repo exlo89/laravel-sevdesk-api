@@ -32,7 +32,25 @@ class Invoice extends ApiClient
      */
     public function all(): Collection
     {
-        return Collection::make($this->_get(Routes::INVOICE));
+        $allInvoices = collect();
+        $offset = 0;
+        $limit = 100;
+
+        do {
+            // Add offset and limit to the parameters
+            $invoices = Collection::make($this->_get(Routes::INVOICE, [
+                'offset' => $offset,
+                'limit' => $limit,
+            ]));
+
+            // Add the new invoices to the existing collection
+            $allInvoices = $allInvoices->merge($invoices);
+            // Increase the offset by the number of invoices returned
+            $offset += $invoices->count();
+
+        } while ($invoices->count() === $limit); // Repeat as long as the maximum number is returned
+
+        return $allInvoices;
     }
 
     /**
