@@ -31,6 +31,36 @@ Außerdem kannst du zwischen 6 verschiedenen Rechnungstypen wählen:
 
 Für mehr Details klicke [hier](https://api.sevdesk.de/#tag/Invoice/Types-and-status-of-invoices).
 
+## Pagination
+
+Alle Methoden, die mehrere Rechnungen zurückgeben, unterstützen Pagination durch optionale Parameter:
+- `offset`: Überspringe die ersten n Einträge (Standard: 0)
+- `limit`: Maximale Anzahl der zurückzugebenden Einträge (Standard: 100)
+
+Beispiel Verwendung:
+```php
+// Hole die ersten 50 Rechnungen
+$invoices = $sevdeskApi->invoice()->all(0, 50);
+
+// Hole die nächsten 50 Rechnungen
+$nextInvoices = $sevdeskApi->invoice()->all(50, 50);
+
+// Hole 20 offene Rechnungen, beginnend ab der 40. Rechnung
+$openInvoices = $sevdeskApi->invoice()->allOpen(40, 20);
+```
+
+Diese Pagination kann mit allen List-Methoden verwendet werden:
+- `all()`
+- `allDraft()`
+- `allOpen()`
+- `allPayed()`
+- `allDue()`
+- `allByContact()`
+- `allByPaymentMethod()`
+- `allBefore()`
+- `allAfter()`
+- `allBetween()`
+
 ## Rechnungen Abfragen
 
 Um alle Rechnungen zu bekommen, rufe die `all()` Funktion auf.

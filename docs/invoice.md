@@ -34,6 +34,36 @@ Also you can choose between 6 different invoice types:
 
 For more details about invoice types click [here](https://api.sevdesk.de/#tag/Invoice/Types-and-status-of-invoices).
 
+## Pagination
+
+All methods that return multiple invoices support pagination through optional parameters:
+- `offset`: Skip the first n entries (default: 0)
+- `limit`: Maximum number of entries to return (default: 100)
+
+Example usage:
+```php
+// Get the first 50 invoices
+$invoices = $sevdeskApi->invoice()->all(0, 50);
+
+// Get the next 50 invoices
+$nextInvoices = $sevdeskApi->invoice()->all(50, 50);
+
+// Get 20 open invoices, starting from the 40th invoice
+$openInvoices = $sevdeskApi->invoice()->allOpen(40, 20);
+```
+
+This pagination can be used with all list methods:
+- `all()`
+- `allDraft()`
+- `allOpen()`
+- `allPayed()`
+- `allDue()`
+- `allByContact()`
+- `allByPaymentMethod()`
+- `allBefore()`
+- `allAfter()`
+- `allBetween()`
+
 ## Retrieve Invoice
 
 To get all invoices call the `all()` function.

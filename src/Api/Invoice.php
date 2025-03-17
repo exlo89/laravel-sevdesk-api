@@ -28,114 +28,166 @@ class Invoice extends ApiClient
     /**
      * Return all invoices.
      *
+     * @param int $offset Offset for pagination (Optional, default: 0)
+     * @param int $limit Maximum number of entries to return (Optional, default: 100)
      * @return Collection
      */
-    public function all(): Collection
+    public function all(int $offset = 0, int $limit = 100): Collection
     {
-        return Collection::make($this->_get(Routes::INVOICE));
+        return Collection::make($this->_get(Routes::INVOICE, [
+            'offset' => $offset,
+            'limit'  => $limit,
+        ]));
     }
 
     /**
      * Return all draft invoices.
      *
+     * @param int $offset Offset for pagination (Optional, default: 0)
+     * @param int $limit Maximum number of entries to return (Optional, default: 100)
      * @return Collection
      */
-    public function allDraft(): Collection
+    public function allDraft(int $offset = 0, int $limit = 100): Collection
     {
-        return Collection::make($this->_get(Routes::INVOICE, ['status' => InvoiceStatus::DRAFT]));
+        return Collection::make($this->_get(Routes::INVOICE, [
+            'status' => InvoiceStatus::DRAFT,
+            'offset' => $offset,
+            'limit'  => $limit,
+        ]));
     }
 
     /**
      * Return all open invoices.
      *
+     * @param int $offset Offset for pagination (Optional, default: 0)
+     * @param int $limit Maximum number of entries to return (Optional, default: 100)
      * @return Collection
      */
-    public function allOpen(): Collection
+    public function allOpen(int $offset = 0, int $limit = 100): Collection
     {
-        return Collection::make($this->_get(Routes::INVOICE, ['status' => InvoiceStatus::OPEN]));
+        return Collection::make($this->_get(Routes::INVOICE, [
+            'status' => InvoiceStatus::OPEN,
+            'offset' => $offset,
+            'limit'  => $limit,
+        ]));
     }
 
     /**
      * Return all due invoices.
      *
+     * @param int $offset Offset for pagination (Optional, default: 0)
+     * @param int $limit Maximum number of entries to return (Optional, default: 100)
      * @return Collection
      */
-    public function allDue(): Collection
+    public function allDue(int $offset = 0, int $limit = 100): Collection
     {
-        return Collection::make($this->_get(Routes::INVOICE, ['status' => InvoiceStatus::OPEN, 'delinquent' => true]));
+        return Collection::make($this->_get(Routes::INVOICE, [
+            'status' => InvoiceStatus::OPEN,
+            'delinquent' => true,
+            'offset' => $offset,
+            'limit'  => $limit,
+        ]));
     }
 
     /**
      * Return all payed invoices.
      *
+     * @param int $offset Offset for pagination (Optional, default: 0)
+     * @param int $limit Maximum number of entries to return (Optional, default: 100)
      * @return Collection
      */
-    public function allPayed(): Collection
+    public function allPayed(int $offset = 0, int $limit = 100): Collection
     {
-        return Collection::make($this->_get(Routes::INVOICE, ['status' => InvoiceStatus::PAYED]));
+        return Collection::make($this->_get(Routes::INVOICE, [
+            'status' => InvoiceStatus::PAYED,
+            'offset' => $offset,
+            'limit'  => $limit,
+        ]));
     }
 
     /**
      * Return all invoices filtered by contact id.
      *
-     * @param $contactId
+     * @param mixed $contactId The ID of the contact
+     * @param int $offset Offset for pagination (Optional, default: 0)
+     * @param int $limit Maximum number of entries to return (Optional, default: 100)
      * @return Collection
      */
-    public function allByContact($contactId): Collection
+    public function allByContact($contactId, int $offset = 0, int $limit = 100): Collection
     {
         return Collection::make($this->_get(Routes::INVOICE, [
             'contact' => [
                 'id'         => $contactId,
                 'objectName' => 'Contact'
             ],
+            'offset' => $offset,
+            'limit'  => $limit,
         ]));
     }
 
     /**
      * Return all invoices filtered by a date equal or lower.
      *
-     * @param int $timestamp
+     * @param int $timestamp The timestamp for filtering
+     * @param int $offset Offset for pagination (Optional, default: 0)
+     * @param int $limit Maximum number of entries to return (Optional, default: 100)
      * @return Collection
      */
-    public function allBefore(int $timestamp): Collection
+    public function allBefore(int $timestamp, int $offset = 0, int $limit = 100): Collection
     {
-        return Collection::make($this->_get(Routes::INVOICE, ['endDate' => $timestamp]));
+        return Collection::make($this->_get(Routes::INVOICE, [
+            'endDate' => $timestamp,
+            'offset' => $offset,
+            'limit'  => $limit,
+        ]));
     }
 
     /**
      * Return all invoices filtered by a date equal or higher.
      *
-     * @param int $timestamp
+     * @param int $timestamp The timestamp for filtering
+     * @param int $offset Offset for pagination (Optional, default: 0)
+     * @param int $limit Maximum number of entries to return (Optional, default: 100)
      * @return Collection
      */
-    public function allAfter(int $timestamp): Collection
+    public function allAfter(int $timestamp, int $offset = 0, int $limit = 100): Collection
     {
-        return Collection::make($this->_get(Routes::INVOICE, ['startDate' => $timestamp]));
+        return Collection::make($this->_get(Routes::INVOICE, [
+            'startDate' => $timestamp,
+            'offset' => $offset,
+            'limit'  => $limit,
+        ]));
     }
 
     /**
      * Return all invoices filtered by a date range.
      *
-     * @param int $startTimestamp
-     * @param int $endTimestamp
+     * @param int $startTimestamp The start timestamp for filtering
+     * @param int $endTimestamp The end timestamp for filtering
+     * @param int $offset Offset for pagination (Optional, default: 0)
+     * @param int $limit Maximum number of entries to return (Optional, default: 100)
      * @return Collection
      */
-    public function allBetween(int $startTimestamp, int $endTimestamp): Collection
+    public function allBetween(int $startTimestamp, int $endTimestamp, int $offset = 0, int $limit = 100): Collection
     {
         return Collection::make($this->_get(Routes::INVOICE, [
             'startDate' => $startTimestamp,
             'endDate'   => $endTimestamp,
+            'offset' => $offset,
+            'limit'  => $limit,
         ]));
     }
 
     /**
      * Return all invoices filtered by a payment method id and optionally by status.
      *
-     * @param int $paymentMethodId The payment method ID to filter invoices.
-     * @param array $additionalFilters Optional additional filters to apply.
-     * @return Collection The filtered collection of invoices.
+     * @param int $paymentMethodId The payment method ID for filtering
+     * @param array $additionalFilters Optional additional filters
+     * @param int $offset Offset for pagination (Optional, default: 0)
+     * @param int $limit Maximum number of entries to return (Optional, default: 100)
+     * @return Collection The filtered collection of invoices
      */
-    public function allByPaymentMethod(int $paymentMethodId, array $additionalFilters = []): Collection
+    public function allByPaymentMethod(int $paymentMethodId, array $additionalFilters = [], int $offset = 0, int $limit = 100): Collection
     {
         // Start with mandatory filter
         $filters = [
