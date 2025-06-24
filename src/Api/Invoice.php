@@ -283,4 +283,16 @@ class Invoice extends ApiClient
             'text'    => $text,
         ]);
     }
+
+    /**
+     * Marks an invoice as sent by a chosen send type.
+     *
+     * @return void
+     */
+    public function sendBy($invoiceId, $sendType)
+    {
+        return $this->_put(Routes::INVOICE.'/'.$invoiceId.'/sendBy', [
+            'sendType' => $sendType,
+        ]);
+    }
 }
