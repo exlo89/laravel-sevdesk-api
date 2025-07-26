@@ -187,3 +187,17 @@ To send invoice to giving `$email`. Use `$subject` and `$text` to edit the mail.
 ```php
 $sevdeskApi->invoice()->sendByMail($invoiceId, $email, $subject, $text);
 ```
+
+## Send Invoice By Custom Type
+
+To send invoice by custom type, you can use the `sendBy()` function. The `$sendType` can be one of the following:
+- VPR = printed
+- VPDF = downloaded 
+- VM = mailed
+- VP = postal
+
+```php
+$sendType = InvoiceSendType::VM;
+
+$sevdeskApi->invoice()->sendBy($invoiceId, $sendType);
+```

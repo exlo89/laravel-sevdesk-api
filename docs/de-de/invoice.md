@@ -182,3 +182,20 @@ enthalten.
 ```php
 $sevdeskApi->invoice()->sendByMail($invoiceId, $email, $subject, $text);
 ```
+
+
+## Rechnung per benutzerdefiniertem Typ versenden
+
+Um eine Rechnung per benutzerdefiniertem Typ zu versenden, kannst du die Funktion `sendBy()` verwenden. 
+Der Parameter `$sendType` kann einer der folgenden Werte sein:
+
+- VPR = gedruckt
+- VPDF = heruntergeladen
+- VM = per E-Mail versendet
+- VP = per Post versendet
+
+```php
+$sendType = InvoiceSendType::VM;
+
+$sevdeskApi->invoice()->sendBy($invoiceId, $sendType);
+```

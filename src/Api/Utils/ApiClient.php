@@ -10,7 +10,6 @@ namespace Exlo89\LaravelSevdeskApi\Api\Utils;
 use Exlo89\LaravelSevdeskApi\Models\SevSequence;
 use Illuminate\Validation\UnauthorizedException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Exlo89\LaravelSevdeskApi\Api\Invoice;
 use GuzzleHttp\Exception\BadResponseException;
 use GuzzleHttp\Client;
 
