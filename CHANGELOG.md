@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-sevdesk-api` will be documented in this file
 
+## 1.0.3 - 2025-07-26
+- add send by support for invoice
+- update documentation
+
 ## 1.0.2 - 2024-03-18
 - add pagination support for invoice list methods
 - update documentation
