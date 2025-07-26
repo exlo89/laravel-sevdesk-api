@@ -190,7 +190,7 @@ class Contact extends ApiClient
      * @param array $parameters
      * @return array
      */
-    private function create(int $contactType, array $parameters = []): array
+    public function create(int $contactType, array $parameters = []): array
     {
         $parameters['category'] = [
             "id"         => $contactType,
