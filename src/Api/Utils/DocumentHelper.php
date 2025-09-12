@@ -43,7 +43,7 @@ class DocumentHelper
      */
     static private function validateConfigs(array $configs): array
     {
-        if (empty($configs['taxRate'])) {
+        if (!isset($configs['taxRate']) || $configs['taxRate'] === null || trim($configs['taxRate']) === '') {
             throw new Exception('Configuration parameter not found: tax_rate');
         }
         if (empty($configs['taxText'])) {
