@@ -66,4 +66,26 @@ class ContactAddress extends ApiClient
         ];
         return SevContactAddress::make($this->_post(Routes::CONTACT_ADDRESS, $parameters));
     }
+
+    // ========================== update ==================================
+
+    /**
+     * Update an existing contact.
+     *
+     * @return SevContact
+     */
+    public function update($contactAddressId, array $parameters = []): SevContactAddress
+    {
+        return SevContactAddress::make($this->_put(Routes::CONTACT_ADDRESS.'/'.$contactAddressId, $parameters));
+    }
+
+    // ========================== delete ==================================
+
+    /**
+     * Delete an existing contact.
+     */
+    public function delete($contactAddressId): void
+    {
+        $this->_delete(Routes::CONTACT_ADDRESS.'/'.$contactAddressId);
+    }
 }
